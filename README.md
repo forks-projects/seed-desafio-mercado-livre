@@ -1,4 +1,9 @@
 # seed-desafio-mercado-livre
+```bash
+mvn clean verify
+```
+
+> Para consultar a cobertura de testes acesso o arquivo `target/site/jacoco/index.html` no seu navegador.
 
 ## TODO
 - encriptar senha do usuário (A senha deve ser guardada usando algum algoritmo de hash da sua escolha.)
