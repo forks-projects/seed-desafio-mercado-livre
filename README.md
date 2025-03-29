@@ -1,5 +1,8 @@
 # seed-desafio-mercado-livre
 
+## TODO
+- encriptar senha do usuário (A senha deve ser guardada usando algum algoritmo de hash da sua escolha.)
+
 ## Cadastro de Novo Usuário
 
 ### Necessidades
