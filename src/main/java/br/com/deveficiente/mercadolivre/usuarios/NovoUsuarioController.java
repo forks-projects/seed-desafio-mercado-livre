@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/v1/usuarios")
+// controller 100% coeso
 public class NovoUsuarioController {
     private final EntityManager entityManager;
 
@@ -20,7 +21,9 @@ public class NovoUsuarioController {
 
     @Transactional
     @PostMapping
+    //1 ICP: NovoUsuarioRequest
     public ResponseEntity<Usuario> cadastrar(@Valid @RequestBody NovoUsuarioRequest novoUsuarioRequest) {
+        //1 ICP: Usuario
         Usuario usuario = novoUsuarioRequest.toModel();
         entityManager.persist(usuario);
         return ResponseEntity.ok().build();

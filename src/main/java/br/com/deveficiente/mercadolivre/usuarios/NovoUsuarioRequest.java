@@ -4,6 +4,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
 
+// Informação natural e obrigatória entra pelo construtor
+// dica/anotações para quem usar o construtor saber os valores obrigatórios
 public record NovoUsuarioRequest(
     @NotBlank
     @Email
