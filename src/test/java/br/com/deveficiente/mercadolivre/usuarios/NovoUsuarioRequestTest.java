@@ -1,4 +1,4 @@
-package bv.com.deveficiente.mercadolivre.usuarios;
+package br.com.deveficiente.mercadolivre.usuarios;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

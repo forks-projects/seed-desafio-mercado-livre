@@ -1,4 +1,4 @@
-package bv.com.deveficiente.mercadolivre.compartilhado.excecao;
+package br.com.deveficiente.mercadolivre.compartilhado.excecao;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;

@@ -1,4 +1,4 @@
-package bv.com.deveficiente.mercadolivre;
+package br.com.deveficiente.mercadolivre;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

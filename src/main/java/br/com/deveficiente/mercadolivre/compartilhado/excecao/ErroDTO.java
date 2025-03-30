@@ -1,4 +1,4 @@
-package bv.com.deveficiente.mercadolivre.compartilhado.excecao;
+package br.com.deveficiente.mercadolivre.compartilhado.excecao;
 
 public class ErroDTO {
     private String campo;

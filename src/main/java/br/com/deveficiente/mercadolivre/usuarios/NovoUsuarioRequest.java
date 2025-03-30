@@ -1,4 +1,4 @@
-package bv.com.deveficiente.mercadolivre.usuarios;
+package br.com.deveficiente.mercadolivre.usuarios;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

@@ -1,4 +1,4 @@
-package bv.com.deveficiente.mercadolivre.compartilhado.seguranca;
+package br.com.deveficiente.mercadolivre.compartilhado.seguranca;
 
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;

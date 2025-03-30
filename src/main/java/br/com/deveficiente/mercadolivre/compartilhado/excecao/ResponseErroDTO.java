@@ -1,4 +1,4 @@
-package bv.com.deveficiente.mercadolivre.compartilhado.excecao;
+package br.com.deveficiente.mercadolivre.compartilhado.excecao;
 
 import java.util.ArrayList;
 import java.util.List;
