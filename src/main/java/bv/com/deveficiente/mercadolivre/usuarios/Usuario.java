@@ -49,4 +49,12 @@ public class Usuario {
         this.senha = senha;
         this.dataHoraRegistro = LocalDateTime.now();
     }
+
+    public @NotBlank @Email String getLogin() {
+        return login;
+    }
+
+    public @NotBlank @Length(min = 6, max = 15) String getSenha() {
+        return senha;
+    }
 }
