@@ -1,6 +1,5 @@
 package br.com.deveficiente.mercadolivre.compartilhado.excecao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ResponseErroDTO {
@@ -8,7 +7,7 @@ public class ResponseErroDTO {
     private String erro;
     private List<ErroDTO> listaErros;
 
-    public ResponseErroDTO(int status, String erro, ArrayList<ErroDTO> camposComErro) {
+    public ResponseErroDTO(int status, String erro, List<ErroDTO> camposComErro) {
         this.status = status;
         this.erro = erro;
         this.listaErros = camposComErro;
