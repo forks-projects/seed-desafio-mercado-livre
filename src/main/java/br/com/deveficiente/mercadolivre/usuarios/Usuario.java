@@ -10,6 +10,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 
@@ -25,7 +27,7 @@ public class Usuario {
     private String login;
 
     @NotBlank
-    @Length(min = 6, max = 15)
+    @Length(min = 6)
     private String senha;
 
     @NotNull
@@ -43,18 +45,22 @@ public class Usuario {
     // dica (anotações) para quem usar o construtor
     public Usuario(
             @NotBlank @Email String login,
-            @NotBlank @Length(min = 6, max = 15) String senha
+            SenhaLimpa senhaLimpa
     ) {
+        //self testing/ design by contrato
+        Assert.isTrue(StringUtils.hasLength(login),"Login não pode estar em branco");
+        Assert.notNull(senhaLimpa,"Objeto do tipo senha limpa não pode ser nulo");
+
         this.login = login;
-        this.senha = senha;
+        this.senha = senhaLimpa.hash();
         this.dataHoraRegistro = LocalDateTime.now();
     }
 
-    public @NotBlank @Email String getLogin() {
+    public String getLogin() {
         return login;
     }
 
-    public @NotBlank @Length(min = 6, max = 15) String getSenha() {
+    public String getSenha() {
         return senha;
     }
 }
