@@ -38,7 +38,7 @@ class NovoUsuarioControllerTest {
     @Property(tries = 10)
     @Label("Cadastrar usuário")
     void cadastrarUsuario(
-            @ForAll @AlphaChars @StringLength(min = 5, max = 245) String prefixoLogin,
+            @ForAll @AlphaChars @StringLength(min = 5, max = 50) String prefixoLogin,
             @ForAll @AlphaChars @StringLength(min = 6, max = 15) String senha
     ) throws Exception {
         String login = prefixoLogin.concat("@email.com");
@@ -52,7 +52,7 @@ class NovoUsuarioControllerTest {
                 .content(payload);
 
         mvc.perform(requestBuilder).andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
-//        mvc.perform(requestBuilder).andExpect(MockMvcResultMatchers.status().is4xxClientError());
+        mvc.perform(requestBuilder).andExpect(MockMvcResultMatchers.status().is4xxClientError());
     }
 
     @Property(tries = 10)

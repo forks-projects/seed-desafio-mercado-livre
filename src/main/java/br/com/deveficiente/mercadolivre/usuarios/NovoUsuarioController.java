@@ -4,6 +4,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,9 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 // controller 100% coeso
 public class NovoUsuarioController {
     private final EntityManager entityManager;
+    //1 ICP: LoginDuplicadoValidator
+    private final LoginDuplicadoValidator loginDuplicadoValidator;
 
-    public NovoUsuarioController(final EntityManager entityManager) {
+    @InitBinder
+    public void init(WebDataBinder binder) {
+        binder.addValidators(loginDuplicadoValidator);
+    }
+
+    public NovoUsuarioController(final EntityManager entityManager, LoginDuplicadoValidator loginDuplicadoValidator) {
         this.entityManager = entityManager;
+        this.loginDuplicadoValidator = loginDuplicadoValidator;
     }
 
     @Transactional
