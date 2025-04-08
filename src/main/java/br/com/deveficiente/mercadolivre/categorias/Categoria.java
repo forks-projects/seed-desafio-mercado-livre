@@ -7,11 +7,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.util.Assert;
 
 @Entity
-@Table(name = "categorias")
+@Table(name = "categorias", uniqueConstraints = {
+        @UniqueConstraint(name = "uc_categorias_nome", columnNames = "nome")
+})
 public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
