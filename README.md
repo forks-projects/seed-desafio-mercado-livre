@@ -54,3 +54,43 @@ Caso sinta que precisa de suporte, utilize o material de suporte de maneira prog
 * Para realizar as validações padrões, existe a Bean Validation.
 * Como criar um `@RestControllerAdvice` para customizar o JSON de saída com erros de validação [link-para-restcontrolleradvice].
 * Como externalizar as mensagens de erro no arquivo de configuração [link-para-externalizar-mensagens].
+
+## Cadastro de categorias
+### necessidades
+No mercado livre você pode criar hierarquias de categorias livres.  
+Ex: Tecnologia → Celulares → Smartphones → Android, Ios etc.  
+Perceba que o sistema precisa ser flexível o suficiente para que essas sequências sejam criadas.
+
+- Toda categoria tem um nome
+- A categoria pode ter uma categoria mãe
+
+### restrições
+- O nome da categoria é obrigatório
+- O nome da categoria precisa ser único
+
+### resultado esperado
+- Categoria criada e status 200 retornado pelo endpoint.
+- Caso existam erros de validação, o endpoint deve retornar 400 e o JSON dos erros.
+
+### informações de suporte geral
+1. Controllers 100% coesos para lembrar você a nossa ideia de ter controllers que utilizam todos os atributos.
+2. Como foi que você fez para receber os dados da requisição? Será que aproveitou a facilidade do framework e recebeu a sua entidade (objeto que faz parte do domínio) direto no método mapeado para um endereço?  
+   Dá uma olhada nesse pilar aqui.
+3. Dado que você separou os dados que chegam da request do objeto de domínio, como vai fazer para converter dessa entrada para o domínio?  
+   Sugiro olhar um pouco sobre nossa ideia de Form Value Objects
+4. Muitos dos problemas de uma aplicação vêm do fato de ela trabalhar com objetos em estado inválido.  
+   O ponto mais crítico é justamente quando os dados vêm de outra fonte.  
+   Confira uma explicação sobre isso aqui e depois aqui
+5. Apenas o nome da categoria é obrigatório. Como você lidou com isso?  
+   Informação natural e obrigatória entra pelo construtor, mas informação natural e não obrigatória não entra.
+6. Utilize um Insomnia ou qualquer outra forma para verificar o endpoint.
+7. Pegue cada uma das classes que você criou e realize a contagem da carga intrínseca.
+8. Como Alberto faria esse código? Aqui ainda não tem a validação do nome único.
+9. Como Alberto faria esse código generalizando a validação de valores únicos?
+
+### informações de suporte para a combinação Java/Kotlin + Spring
+1. Para receber os dados da request como JSON, usamos a annotation `@RequestBody`.
+2. Usamos a annotation `@Valid` para pedir que os dados da request sejam validados.
+3. Para realizar as validações padrões, existe a **Bean Validation**.
+4. Como criar um `@RestControllerAdvice` para customizar o JSON de saída com erros de validação
+5. Como externalizar as mensagens de erro no arquivo de configuração
