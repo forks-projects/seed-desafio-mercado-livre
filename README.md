@@ -94,3 +94,22 @@ Perceba que o sistema precisa ser flexível o suficiente para que essas sequênc
 3. Para realizar as validações padrões, existe a **Bean Validation**.
 4. Como criar um `@RestControllerAdvice` para customizar o JSON de saída com erros de validação
 5. Como externalizar as mensagens de erro no arquivo de configuração
+
+## TRABALHANDO COM O USUÁRIO LOGADO (VAI IMPACTAR NO RESTO DO CÓDIGO)
+
+### problema
+
+Você precisa configurar um mecanismo de autenticação via token, provavelmente com o Spring Security, para permitir o login.  
+Caso queira, é só olhar nesse link [aqui](./).  
+Aí tem todo código de segurança necessário para autenticar no Spring Security via token JWT.  
+Fique à vontade para entendê-lo e aplicar no projeto.
+
+Caso você esteja utilizando NestJS, ASP.NET Core MVC ou outro framework, é só decidir por qual tecnologia de segurança você vai querer.
+
+### solução que eu faria para focar mais nas features
+
+Em todo trecho de código que precisar do usuário logado, na primeira linha do método do controller que precisa de um usuário logado,  
+eu buscaria pelo usuário com um email específico e usaria ele como "referência logada" na aplicação.
+
+Depois, se você quiser, é só habilitar o projeto de segurança, receber o usuário como argumento do método e apagar essa linha...  
+Tudo deveria funcionar normalmente.
