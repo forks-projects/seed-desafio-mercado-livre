@@ -1,5 +1,7 @@
 package br.com.deveficiente.mercadolivre.categorias;
 
+import br.com.deveficiente.mercadolivre.compartilhado.seguranca.LoginRequest;
+import br.com.deveficiente.mercadolivre.compartilhado.seguranca.TokenManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Label;
@@ -9,12 +11,17 @@ import net.jqwik.api.constraints.LongRange;
 import net.jqwik.api.constraints.StringLength;
 import net.jqwik.spring.JqwikSpringSupport;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -24,6 +31,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -34,9 +42,26 @@ class NovaCategoriaControllerTest {
     @Autowired
     private MockMvc mvc;
 
+    @Autowired
+    private TokenManager tokenManager;
+
     private ObjectMapper objectMapper = new ObjectMapper();
 
     private static Set<String> categoriaCadastrada = new HashSet<>();
+
+    private HttpHeaders getAuthorization() {
+        UserDetails user = org.springframework.security.core.userdetails.User
+                .withUsername("adriano@email.com")
+                .password("123456")
+                .build();
+
+        Authentication auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+        String jwtToken = tokenManager.generateToken(auth);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(jwtToken);
+        return headers;
+    }
 
     @Property(tries = 10)
     @Label("Cadastrar categoria sem categoria mãe")
@@ -49,6 +74,7 @@ class NovaCategoriaControllerTest {
 
         mvc.perform(MockMvcRequestBuilders.post("/v1/categorias")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .headers(getAuthorization())
                         .content(payload))
                 .andExpect(status().is2xxSuccessful());
     }
@@ -64,6 +90,7 @@ class NovaCategoriaControllerTest {
 
         mvc.perform(MockMvcRequestBuilders.post("/v1/categorias")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .headers(getAuthorization())
                         .content(payload))
                 .andExpect(status().is4xxClientError());
     }
@@ -83,6 +110,7 @@ class NovaCategoriaControllerTest {
 
         mvc.perform(MockMvcRequestBuilders.post("/v1/categorias")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .headers(getAuthorization())
                         .content(payload))
                 .andExpect(status().is4xxClientError());
     }
@@ -96,6 +124,7 @@ class NovaCategoriaControllerTest {
         Map<String, Object> payloadCategoriaMae = Map.of("nome", "Categoria mãe");
         mvc.perform(MockMvcRequestBuilders.post("/v1/categorias")
                 .contentType(MediaType.APPLICATION_JSON)
+                .headers(getAuthorization())
                 .content(objectMapper.writeValueAsString(payloadCategoriaMae)));
 
         Map<String, Object> payloadMap = Map.of(
@@ -107,7 +136,19 @@ class NovaCategoriaControllerTest {
 
         mvc.perform(MockMvcRequestBuilders.post("/v1/categorias")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .headers(getAuthorization())
                         .content(payload))
                 .andExpect(status().is2xxSuccessful());
+    }
+
+    @Test
+    @DisplayName("Acesso não autorizado para cadastrar categoria sem autenticação")
+    void acessoNaoAutorizadoParaCadastrarCategoriaSemAutenticacao() throws Exception {
+        Map<String, Object> payload = Map.of("nome", "NovaCategoria");
+
+        mvc.perform(MockMvcRequestBuilders.post("/v1/categorias")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(payload)))
+                .andExpect(status().isUnauthorized());
     }
 }

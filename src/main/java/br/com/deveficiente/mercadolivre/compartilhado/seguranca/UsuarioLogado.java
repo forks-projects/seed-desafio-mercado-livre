@@ -51,8 +51,4 @@ public class UsuarioLogado implements UserDetails {
         return springUserDetails.isCredentialsNonExpired();
     }
 
-    public Usuario get() {
-        return usuario;
-    }
-
 }
