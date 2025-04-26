@@ -10,12 +10,16 @@ import java.util.Set;
 
 public class CaracteristicasComNomesUnicosValidator implements ConstraintValidator<CaracteristicasComNomesUnicos, List<CaracteristicaRequest>> {
 
+    // 1 ICP CaracteristicaRequest
     @Override
     public boolean isValid(List<CaracteristicaRequest> value, ConstraintValidatorContext context) {
+        // 2 ICP if/else
         if (value == null || value.isEmpty()) return true;
 
         Set<String> nomesUnicos = new HashSet<>();
+        // 1 ICP for
         for (CaracteristicaRequest caracteristica : value) {
+            // 2 ICP if/else
             if (!nomesUnicos.add(caracteristica.nome())) {
                 return false;
             }
