@@ -1,7 +1,7 @@
 package br.com.deveficiente.mercadolivre.produtos;
 
 import br.com.deveficiente.mercadolivre.categorias.Categoria;
-import br.com.deveficiente.mercadolivre.compartilhado.CaracteristicasComNomesUnicos;
+import br.com.deveficiente.mercadolivre.compartilhado.validacao.CaracteristicasComNomesUnicos;
 import br.com.deveficiente.mercadolivre.compartilhado.validacao.ExisteId;
 import jakarta.persistence.EntityManager;
 import jakarta.validation.Valid;

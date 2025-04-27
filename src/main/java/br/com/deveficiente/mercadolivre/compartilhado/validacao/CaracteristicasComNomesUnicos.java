@@ -1,4 +1,4 @@
-package br.com.deveficiente.mercadolivre.compartilhado;
+package br.com.deveficiente.mercadolivre.compartilhado.validacao;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
