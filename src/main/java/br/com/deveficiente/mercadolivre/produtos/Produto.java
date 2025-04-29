@@ -1,6 +1,7 @@
 package br.com.deveficiente.mercadolivre.produtos;
 
 import br.com.deveficiente.mercadolivre.categorias.Categoria;
+import io.jsonwebtoken.lang.Assert;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -57,6 +58,7 @@ public class Produto {
     @Deprecated
     public Produto() {}
 
+    // Informação natural e obrigatória entra pelo construtor
     public Produto(String nome,
                    BigDecimal valor,
                    Integer quantidade,
@@ -69,9 +71,17 @@ public class Produto {
         this.quantidade = quantidade;
         this.descricao = descricao;
         this.categoria = categoria;
+        adicionarCaracteristicas(caracteristicas);
+        dataHoraRegistro = LocalDateTime.now();
+    }
+
+    // dica/anotações para quem usar o construtor saber os valores obrigatórios
+    private void adicionarCaracteristicas(@NotNull @Size(min = 3) Set<Caracteristica> caracteristicas) {
+        //self testing/ design by contrato
+        Assert.notNull(caracteristicas, "caracteristicas não pode ser nulo");
+        Assert.isTrue(caracteristicas.size() >= 3, "deve ter pelo menos 3 características");
         caracteristicas.forEach(c -> c.vinculaAProduto(this));
         this.caracteristicas.addAll(caracteristicas);
-        dataHoraRegistro = LocalDateTime.now();
     }
 
 }
