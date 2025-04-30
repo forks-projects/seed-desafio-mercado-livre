@@ -5,7 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.util.Collections;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -15,13 +15,18 @@ class CaracteristicaTest {
     @Test
     @DisplayName("Deve vincular caracteristica a um produto real")
     void deveVincularCaracteristicaAoProdutoReal() {
+        Set<Caracteristica> caracteristicas = Set.of(
+                new Caracteristica("Cor", "Preto"),
+                new Caracteristica("Peso", "200g"),
+                new Caracteristica("Material", "Plástico")
+        );
         Produto produto = new Produto(
                 "Produto Teste",
                 BigDecimal.valueOf(100),
                 10,
                 "Descrição de teste",
                 new Categoria("Categoria Teste"),
-                Collections.emptySet()
+                caracteristicas
         );
 
         Caracteristica caracteristica = new Caracteristica("Tamanho", "6.5 polegadas");

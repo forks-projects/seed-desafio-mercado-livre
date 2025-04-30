@@ -1,0 +1,131 @@
+package br.com.deveficiente.mercadolivre.produtos;
+
+import br.com.deveficiente.mercadolivre.compartilhado.seguranca.TokenManager;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import net.jqwik.api.ForAll;
+import net.jqwik.api.Label;
+import net.jqwik.api.Property;
+import net.jqwik.api.constraints.AlphaChars;
+import net.jqwik.api.constraints.BigRange;
+import net.jqwik.api.constraints.IntRange;
+import net.jqwik.api.constraints.StringLength;
+import net.jqwik.api.lifecycle.BeforeContainer;
+import net.jqwik.api.lifecycle.BeforeProperty;
+import net.jqwik.spring.JqwikSpringSupport;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+@JqwikSpringSupport
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+class NovoProdutoControllerTest {
+
+    @Autowired
+    private MockMvc mvc;
+
+    @Autowired
+    private TokenManager tokenManager;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    private static final Set<String> produtosCadastrados = ConcurrentHashMap.newKeySet();
+
+    private List<Map<String, String>> listaCaracteristicas;
+
+    @BeforeProperty
+    void setup() {
+        listaCaracteristicas = List.of(
+                Map.of("nome", "Cor", "descricao", "Preto"),
+                Map.of("nome", "Tamanho", "descricao", "Médio"),
+                Map.of("nome", "Peso", "descricao", "1kg")
+        );
+    }
+
+    private HttpHeaders getAuthorization() {
+        UserDetails user = org.springframework.security.core.userdetails.User
+                .withUsername("adriano@email.com")
+                .password("123456")
+                .build();
+
+        Authentication auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+        String jwtToken = tokenManager.generateToken(auth);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(jwtToken);
+        return headers;
+    }
+
+    @Property(tries = 10)
+    @Label("Acesso não autorizado para cadastrar produto sem autenticação")
+    void acessoNaoAutorizadoParaCadastrarProdutoSemAutenticacao(
+            @ForAll @AlphaChars @StringLength(min = 3, max = 30) String nomeProduto,
+            @ForAll @BigRange(min = "1", max = "38") BigDecimal valor,
+            @ForAll @IntRange(min = 1, max = 50) int quantidade,
+            @ForAll @AlphaChars @StringLength(min = 1) String descricao
+    ) throws Exception {
+        assumeTrue(produtosCadastrados.add(nomeProduto));
+        Map<String, Object> payload = Map.of(
+                "nome", nomeProduto,
+                "valor", valor.toString(),
+                "quantidade", quantidade,
+                "descricao", descricao,
+                "idCategoria", 1,
+                "caracteristicasRequest", listaCaracteristicas
+        );
+
+        mvc.perform(MockMvcRequestBuilders.post("/v1/produtos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(payload)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Property(tries = 10)
+    @Label("Cadastrar produto com sucesso")
+    void cadastrarProdutoComSucesso(
+            @ForAll @AlphaChars @StringLength(min = 3, max = 30) String nomeProduto,
+            @ForAll @BigRange(min = "1", max = "38") BigDecimal valor,
+            @ForAll @IntRange(min = 1, max = 50) int quantidade,
+            @ForAll @AlphaChars @StringLength(min = 1) String descricao
+    ) throws Exception {
+        assumeTrue(produtosCadastrados.add(nomeProduto));
+
+        Map<String, Object> payload = Map.of(
+                "nome", nomeProduto,
+                "valor", valor.toString(),
+                "quantidade", quantidade,
+                "descricao", descricao,
+                "idCategoria", 1,
+                "caracteristicasRequest", listaCaracteristicas
+        );
+
+        mvc.perform(MockMvcRequestBuilders.post("/v1/produtos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .headers(getAuthorization())
+                        .content(objectMapper.writeValueAsString(payload)))
+                .andExpect(status().is2xxSuccessful());
+    }
+
+}
