@@ -1,5 +1,6 @@
 package br.com.deveficiente.mercadolivre.produtos;
 
+import br.com.deveficiente.mercadolivre.compartilhado.seguranca.AutorizacaoHelper;
 import br.com.deveficiente.mercadolivre.compartilhado.seguranca.TokenManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.jqwik.api.ForAll;
@@ -9,20 +10,12 @@ import net.jqwik.api.constraints.AlphaChars;
 import net.jqwik.api.constraints.BigRange;
 import net.jqwik.api.constraints.IntRange;
 import net.jqwik.api.constraints.StringLength;
-import net.jqwik.api.lifecycle.BeforeContainer;
 import net.jqwik.api.lifecycle.BeforeProperty;
 import net.jqwik.spring.JqwikSpringSupport;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -62,20 +55,6 @@ class NovoProdutoControllerTest {
                 Map.of("nome", "Tamanho", "descricao", "Médio"),
                 Map.of("nome", "Peso", "descricao", "1kg")
         );
-    }
-
-    private HttpHeaders getAuthorization() {
-        UserDetails user = org.springframework.security.core.userdetails.User
-                .withUsername("adriano@email.com")
-                .password("123456")
-                .build();
-
-        Authentication auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-        String jwtToken = tokenManager.generateToken(auth);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(jwtToken);
-        return headers;
     }
 
     @Property(tries = 10)
@@ -123,7 +102,7 @@ class NovoProdutoControllerTest {
 
         mvc.perform(MockMvcRequestBuilders.post("/v1/produtos")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .headers(getAuthorization())
+                        .headers(new AutorizacaoHelper().getAuthorization(tokenManager))
                         .content(objectMapper.writeValueAsString(payload)))
                 .andExpect(status().is2xxSuccessful());
     }
