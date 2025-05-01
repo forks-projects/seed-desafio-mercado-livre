@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -22,7 +23,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "produtos")
+@Table(name = "produtos", uniqueConstraints = {
+        @UniqueConstraint(name = "uc_produtos_nome", columnNames = "nome")
+})
 public class Produto {
 
     @Id

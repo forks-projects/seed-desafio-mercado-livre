@@ -3,6 +3,7 @@ package br.com.deveficiente.mercadolivre.produtos;
 import br.com.deveficiente.mercadolivre.categorias.Categoria;
 import br.com.deveficiente.mercadolivre.compartilhado.validacao.CaracteristicasComNomesUnicos;
 import br.com.deveficiente.mercadolivre.compartilhado.validacao.ExisteId;
+import br.com.deveficiente.mercadolivre.compartilhado.validacao.ValorUnico;
 import jakarta.persistence.EntityManager;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 
 public record NovoProdutoRequest(
     @NotBlank
+    @ValorUnico(classeDaEntidade = Produto.class, nomeDoCampo = "nome")
     String nome,
 
     @Positive
