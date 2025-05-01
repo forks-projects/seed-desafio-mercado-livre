@@ -21,6 +21,9 @@ public class CaracteristicasComNomesUnicosValidator implements ConstraintValidat
         for (CaracteristicaRequest caracteristica : value) {
             // 2 ICP if/else
             if (!nomesUnicos.add(caracteristica.nome())) {
+                context.disableDefaultConstraintViolation();
+                String mensagemErro = "As características devem ter nomes únicos. Característica duplicada: " + caracteristica.nome();
+                context.buildConstraintViolationWithTemplate(mensagemErro).addConstraintViolation();
                 return false;
             }
         }

@@ -17,6 +17,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class CaracteristicasComNomesUnicosValidatorTest {
@@ -26,6 +27,9 @@ class CaracteristicasComNomesUnicosValidatorTest {
 
     @Mock
     private ConstraintValidatorContext context;
+
+    @Mock
+    private ConstraintValidatorContext.ConstraintViolationBuilder violationBuilder;
 
     private CaracteristicasComNomesUnicosLocal caracteristicasComNomesUnicosLocal;
 
@@ -56,6 +60,8 @@ class CaracteristicasComNomesUnicosValidatorTest {
                 CaracteristicaRequestBuilder.umaCaracteristica().comNome("cor").comDescricao("200g").build(),
                 CaracteristicaRequestBuilder.umaCaracteristica().comNome("material").comDescricao("metal").build()
         );
+        String mensagem = "As características devem ter nomes únicos. Característica duplicada: cor";
+        when(context.buildConstraintViolationWithTemplate(mensagem)).thenReturn(violationBuilder);
 
         boolean resultado = validator.isValid(caracteristicas, context);
 
