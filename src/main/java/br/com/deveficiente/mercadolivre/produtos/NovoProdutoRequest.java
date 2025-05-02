@@ -4,6 +4,7 @@ import br.com.deveficiente.mercadolivre.categorias.Categoria;
 import br.com.deveficiente.mercadolivre.compartilhado.validacao.CaracteristicasComNomesUnicos;
 import br.com.deveficiente.mercadolivre.compartilhado.validacao.ExisteId;
 import br.com.deveficiente.mercadolivre.compartilhado.validacao.ValorUnico;
+import br.com.deveficiente.mercadolivre.usuarios.Usuario;
 import jakarta.persistence.EntityManager;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -45,14 +46,16 @@ public record NovoProdutoRequest(
     @Valid
     List<CaracteristicaRequest> caracteristicasRequest
 ) {
-    public Produto toModel(@NotNull EntityManager entityManager) {
+    //1 ICP UsuarioLogado
+    public Produto toModel(@NotNull EntityManager entityManager, @NotNull Usuario usuarioLogado) {
         // 1 ICP Categoria
         Categoria categoria = entityManager.find(Categoria.class, idCategoria());
         //self testing/ design by contrato
         Assert.notNull(categoria, "Categoria deve existir");
+        Assert.notNull(usuarioLogado, "Usuario não pode ser nulo");
         Set<Caracteristica> caracteristicas = caracteristicasRequest.stream()
                 .map(CaracteristicaRequest::toModel)
                 .collect(Collectors.toSet());
-        return new Produto(nome(), valor(),quantidade(), descricao(), categoria, caracteristicas);
+        return new Produto(nome(), valor(),quantidade(), descricao(), categoria, usuarioLogado,caracteristicas);
     }
 }

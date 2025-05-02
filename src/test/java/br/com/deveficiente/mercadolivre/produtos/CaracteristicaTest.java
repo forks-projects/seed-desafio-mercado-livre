@@ -1,6 +1,8 @@
 package br.com.deveficiente.mercadolivre.produtos;
 
 import br.com.deveficiente.mercadolivre.categorias.Categoria;
+import br.com.deveficiente.mercadolivre.usuarios.SenhaLimpa;
+import br.com.deveficiente.mercadolivre.usuarios.Usuario;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -20,12 +22,14 @@ class CaracteristicaTest {
                 new Caracteristica("Peso", "200g"),
                 new Caracteristica("Material", "Plástico")
         );
+        Usuario usuario = new Usuario("adriano@email.com", new SenhaLimpa("123456"));
         Produto produto = new Produto(
                 "Produto Teste",
                 BigDecimal.valueOf(100),
                 10,
                 "Descrição de teste",
                 new Categoria("Categoria Teste"),
+                usuario,
                 caracteristicas
         );
 

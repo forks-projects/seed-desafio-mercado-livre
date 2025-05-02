@@ -19,6 +19,10 @@ public class UsuarioLogado implements UserDetails {
         springUserDetails = new User(usuario.getLogin(), usuario.getSenha(), List.of());
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
     public Collection<GrantedAuthority> getAuthorities() {
         return springUserDetails.getAuthorities();
     }

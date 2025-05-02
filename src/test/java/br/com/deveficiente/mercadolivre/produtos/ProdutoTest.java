@@ -1,6 +1,8 @@
 package br.com.deveficiente.mercadolivre.produtos;
 
 import br.com.deveficiente.mercadolivre.categorias.Categoria;
+import br.com.deveficiente.mercadolivre.usuarios.SenhaLimpa;
+import br.com.deveficiente.mercadolivre.usuarios.Usuario;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -21,6 +23,7 @@ class ProdutoTest {
         Caracteristica caracteristica1 = new Caracteristica("Tamanho", "6 polegadas");
         Caracteristica caracteristica2 = new Caracteristica("Cor", "Preto");
         Caracteristica caracteristica3 = new Caracteristica("Peso", "200g");
+        Usuario usuario = new Usuario("adriano@email.com", new SenhaLimpa("123456"));
 
         Produto produto = new Produto(
                 "Smartphone",
@@ -28,6 +31,7 @@ class ProdutoTest {
                 10,
                 "Um ótimo smartphone.",
                 categoria,
+                usuario,
                 Set.of(caracteristica1, caracteristica2, caracteristica3)
         );
 
@@ -45,6 +49,7 @@ class ProdutoTest {
         Categoria categoria = new Categoria("Tecnologia");
         Caracteristica caracteristica1 = new Caracteristica("Cor", "Branco");
         Caracteristica caracteristica2 = new Caracteristica("Peso", "150g");
+        Usuario usuario = new Usuario("adriano@email.com", new SenhaLimpa("123456"));
 
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
@@ -54,6 +59,7 @@ class ProdutoTest {
                         5,
                         "Notebook potente.",
                         categoria,
+                        usuario,
                         Set.of(caracteristica1, caracteristica2)
                 )
         );
@@ -65,6 +71,7 @@ class ProdutoTest {
     @DisplayName("Deve lançar exceção ao tentar criar produto com características nulas")
     void deveLancarExcecaoQuandoCaracteristicasForNulo() {
         Categoria categoria = new Categoria("Tecnologia");
+        Usuario usuario = new Usuario("adriano@email.com", new SenhaLimpa("123456"));
 
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
@@ -74,6 +81,7 @@ class ProdutoTest {
                         15,
                         "Tablet para estudos.",
                         categoria,
+                        usuario,
                         null
                 )
         );

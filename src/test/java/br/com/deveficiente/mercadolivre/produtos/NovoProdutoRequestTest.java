@@ -2,13 +2,13 @@ package br.com.deveficiente.mercadolivre.produtos;
 
 import br.com.deveficiente.mercadolivre.categorias.Categoria;
 import br.com.deveficiente.mercadolivre.compartilhado.databuilders.CaracteristicaRequestBuilder;
+import br.com.deveficiente.mercadolivre.usuarios.SenhaLimpa;
+import br.com.deveficiente.mercadolivre.usuarios.Usuario;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.NullSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -45,6 +45,7 @@ class NovoProdutoRequestTest {
         Categoria categoria = new Categoria("Tecnologia");
         when(entityManager.find(Categoria.class, 1)).thenReturn(categoria);
 
+        Usuario usuario = new Usuario("adriano@email.com", new SenhaLimpa("123456"));
         NovoProdutoRequest request = new NovoProdutoRequest(
                 "Smartphone",
                 BigDecimal.valueOf(1500),
@@ -54,7 +55,7 @@ class NovoProdutoRequestTest {
                 caracteristicas
         );
 
-        Produto produto = request.toModel(entityManager);
+        Produto produto = request.toModel(entityManager, usuario);
 
         assertNotNull(produto);
         assertEquals(request.nome(), produto.nome);
@@ -77,10 +78,10 @@ class NovoProdutoRequestTest {
                 999,
                 caracteristicas
         );
-
+        Usuario usuario = new Usuario("adriano@email.com", new SenhaLimpa("123456"));
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
-                () -> request.toModel(entityManager)
+                () -> request.toModel(entityManager, usuario)
         );
 
         assertTrue(exception.getMessage().contains("Categoria deve existir"));
@@ -100,9 +101,10 @@ class NovoProdutoRequestTest {
                 1,
                 null
         );
+        Usuario usuario = new Usuario("adriano@email.com", new SenhaLimpa("123456"));
 
         assertThrows(NullPointerException.class,
-                () -> request.toModel(entityManager)
+                () -> request.toModel(entityManager, usuario)
         );
     }
 }

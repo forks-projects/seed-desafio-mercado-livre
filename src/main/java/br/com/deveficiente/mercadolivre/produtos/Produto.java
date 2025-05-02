@@ -1,6 +1,7 @@
 package br.com.deveficiente.mercadolivre.produtos;
 
 import br.com.deveficiente.mercadolivre.categorias.Categoria;
+import br.com.deveficiente.mercadolivre.usuarios.Usuario;
 import io.jsonwebtoken.lang.Assert;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -51,6 +52,10 @@ public class Produto {
     @NotNull
     private Categoria categoria;
 
+    @ManyToOne
+    @NotNull
+    private  Usuario usuario;
+
     @Size(min = 3, message = "deve ter pelo menos 3 características")
     @NotNull
     @OneToMany(mappedBy = "produto", cascade = CascadeType.PERSIST)
@@ -58,6 +63,9 @@ public class Produto {
 
     private LocalDateTime dataHoraRegistro;
 
+    /**
+     * Somente para uso do ORM
+     */
     @Deprecated
     public Produto() {}
 
@@ -67,6 +75,7 @@ public class Produto {
                    Integer quantidade,
                    String descricao,
                    Categoria categoria,
+                   Usuario usuario,
                    Set<Caracteristica> caracteristicas) {
 
         this.nome = nome;
@@ -74,6 +83,7 @@ public class Produto {
         this.quantidade = quantidade;
         this.descricao = descricao;
         this.categoria = categoria;
+        this.usuario = usuario;
         adicionarCaracteristicas(caracteristicas);
         dataHoraRegistro = LocalDateTime.now();
     }
