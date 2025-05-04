@@ -17,12 +17,12 @@ public class UploaderFake implements Uploader{
     public Set<ImagemProduto> enviar(@NotNull @Size(min = 1) ImagensRequest imagens) {
         //self testing/ design by contrato
         Assert.notNull(imagens, "Request de imagens não pode ser nulo");
-        Assert.isTrue(!imagens.getImagens().isEmpty(), "Deve ter pelo menos uma imagem");
+        Assert.isTrue(!imagens.imagens().isEmpty(), "Deve ter pelo menos uma imagem");
         // envia arquivo
         System.out.println("=============================================");
         System.out.println("Profile de DEV");
         System.out.println("=============================================");
-        return imagens.getImagens().stream().map(imagem -> {
+        return imagens.imagens().stream().map(imagem -> {
             String nome = imagem.getOriginalFilename();
             String url = "//bucketname/" + imagem.getName();
             return new ImagemProduto(nome, url);

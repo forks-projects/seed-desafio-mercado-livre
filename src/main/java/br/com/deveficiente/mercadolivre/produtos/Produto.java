@@ -91,10 +91,6 @@ public class Produto {
         dataHoraRegistro = LocalDateTime.now();
     }
 
-    public Set<Caracteristica> getCaracteristicas() {
-        return caracteristicas;
-    }
-
     // dica/anotações para quem usar o construtor saber os valores obrigatórios
     private void adicionarCaracteristicas(@NotNull @Size(min = 3) Set<Caracteristica> caracteristicas) {
         //self testing/ design by contrato
@@ -111,5 +107,9 @@ public class Produto {
         Assert.isTrue(!imagens.isEmpty(), "deve ter pelo menos 1 imagem");
         imagens.forEach(imagem -> imagem.associarProduto(this));
         this.imagens.addAll(imagens);
+    }
+
+    public boolean pertenceA(Usuario usuario) {
+        return this.usuario.equals(usuario);
     }
 }

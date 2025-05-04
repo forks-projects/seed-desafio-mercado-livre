@@ -15,6 +15,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 
@@ -66,5 +67,17 @@ public class Usuario {
 
     public String getSenha() {
         return senha;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Usuario usuario)) return false;
+        return Objects.equals(id, usuario.id) && Objects.equals(login, usuario.login) && Objects.equals(dataHoraRegistro, usuario.dataHoraRegistro);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, login, dataHoraRegistro);
     }
 }
