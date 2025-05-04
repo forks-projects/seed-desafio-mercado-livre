@@ -61,6 +61,9 @@ public class Produto {
     @OneToMany(mappedBy = "produto", cascade = CascadeType.PERSIST)
     Set<Caracteristica> caracteristicas = new HashSet<>();
 
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
+    private Set<ImagemProduto> imagens = new HashSet<>();
+
     private LocalDateTime dataHoraRegistro;
 
     /**
@@ -88,6 +91,10 @@ public class Produto {
         dataHoraRegistro = LocalDateTime.now();
     }
 
+    public Set<Caracteristica> getCaracteristicas() {
+        return caracteristicas;
+    }
+
     // dica/anotações para quem usar o construtor saber os valores obrigatórios
     private void adicionarCaracteristicas(@NotNull @Size(min = 3) Set<Caracteristica> caracteristicas) {
         //self testing/ design by contrato
@@ -97,4 +104,12 @@ public class Produto {
         this.caracteristicas.addAll(caracteristicas);
     }
 
+    // dica/anotações para quem usar o construtor saber os valores obrigatórios
+    public void adicionarImagens(@NotNull @Size(min = 1) Set<ImagemProduto> imagens) {
+        //self testing/ design by contrato
+        Assert.notNull(imagens, "imagens não pode ser nulo");
+        Assert.isTrue(!imagens.isEmpty(), "deve ter pelo menos 1 imagem");
+        imagens.forEach(imagem -> imagem.associarProduto(this));
+        this.imagens.addAll(imagens);
+    }
 }
