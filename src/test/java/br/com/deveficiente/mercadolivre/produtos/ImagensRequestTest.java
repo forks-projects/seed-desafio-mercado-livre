@@ -1,5 +1,6 @@
 package br.com.deveficiente.mercadolivre.produtos;
 
+import br.com.deveficiente.mercadolivre.produtos.imagens.ImagensRequest;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;

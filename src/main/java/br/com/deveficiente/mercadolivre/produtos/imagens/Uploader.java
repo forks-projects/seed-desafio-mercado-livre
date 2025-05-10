@@ -1,4 +1,4 @@
-package br.com.deveficiente.mercadolivre.produtos;
+package br.com.deveficiente.mercadolivre.produtos.imagens;
 
 import java.util.Set;
 

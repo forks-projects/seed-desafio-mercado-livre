@@ -1,7 +1,8 @@
-package br.com.deveficiente.mercadolivre.produtos;
+package br.com.deveficiente.mercadolivre.produtos.imagens;
 
 import br.com.deveficiente.mercadolivre.compartilhado.excecao.ResponseErroDTO;
 import br.com.deveficiente.mercadolivre.compartilhado.seguranca.UsuarioLogado;
+import br.com.deveficiente.mercadolivre.produtos.Produto;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;

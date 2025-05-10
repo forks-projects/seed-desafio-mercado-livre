@@ -1,4 +1,4 @@
-package br.com.deveficiente.mercadolivre.produtos;
+package br.com.deveficiente.mercadolivre.produtos.imagens;
 
 import br.com.deveficiente.mercadolivre.compartilhado.validacao.NomeArquivoUnico;
 import jakarta.validation.constraints.NotNull;

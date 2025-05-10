@@ -1,4 +1,4 @@
-package br.com.deveficiente.mercadolivre.produtos;
+package br.com.deveficiente.mercadolivre.produtos.imagens;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -10,17 +10,18 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
-@Profile("dev")
-public class UploaderFake implements Uploader{
+@Profile("prod")
+public class UploaderS3 implements Uploader{
     @Override
     // dica/anotações para quem usar o construtor saber os valores obrigatórios
-    public Set<ImagemProduto> enviar(@NotNull @Size(min = 1) ImagensRequest imagens) {
+    public Set<ImagemProduto> enviar(@NotNull @Size(min = 1)ImagensRequest imagens) {
         //self testing/ design by contrato
         Assert.notNull(imagens, "Request de imagens não pode ser nulo");
         Assert.isTrue(!imagens.imagens().isEmpty(), "Deve ter pelo menos uma imagem");
-        // envia arquivo
+        // envia arquivo para o S3
+        // criar logica para pegar url do arquivo
         System.out.println("=============================================");
-        System.out.println("Profile de DEV");
+        System.out.println("Profile de PROD");
         System.out.println("=============================================");
         return imagens.imagens().stream().map(imagem -> {
             String nome = imagem.getOriginalFilename();
