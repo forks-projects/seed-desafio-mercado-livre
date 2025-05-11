@@ -16,6 +16,11 @@ public class ResponseErroDTO {
         this.listaErros = camposComErro;
     }
 
+    public ResponseErroDTO(int status, String erro) {
+        this.status = status;
+        this.erro = erro;
+    }
+
     public int getStatus() {
         return status;
     }
