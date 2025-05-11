@@ -25,6 +25,6 @@ public record OpiniaoProdutoRequest(
         //self testing/ design by contrato
         Assert.notNull(produto, "Produto não pode ser nulo");
         Assert.notNull(usuario, "Usuario não pode ser nulo");
-        return new OpiniaoProduto(nota, titulo, descricao, produto, usuario);
+        return new OpiniaoProduto(nota(), titulo(), descricao(), produto, usuario);
     }
 }
