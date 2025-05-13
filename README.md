@@ -165,3 +165,49 @@ Aqui a gente vai permitir o cadastro de um produto por usuário logado.
 7. Brinque um pouco com a classe `Assert` do Spring para fazer checagens de parâmetro também. As ideias de Design By Contract ajudam demais a aumentar a confiabilidade da aplicação.
 8. Para configurar o Spring Security olhe aqui
 9. Lembrando que, para receber a referência para o usuário logado no método do controller, você pode usar a annotation `@AuthenticationPrincipal`.
+
+## Adicione uma opinião sobre um produto
+
+### **explicação**
+Um usuário logado pode opinar sobre um produto. Claro que o melhor era que isso só pudesse ser feito depois da compra, mas podemos lidar com isso depois.
+
+### **necessidades**
+- Tem uma nota que vai de 1 a 5  
+- Tem um título. Ex: espetacular, horrível...  
+- Tem uma descrição  
+- O usuário logado que fez a pergunta  
+- O produto para o qual a pergunta foi direcionada  
+
+### **restrições**
+- A nota é no mínimo 1 e no máximo 5  
+- Título é obrigatório  
+- Descrição é obrigatória e tem no máximo 500 caracteres  
+- Usuário é obrigatório  
+- Produto relacionado é obrigatório  
+
+### **resultado esperado**
+- Uma nova opinião é criada e status 200 é retornado  
+- Em caso de erro de validação, retorne 400 e o JSON com erros  
+
+### **informações de suporte geral**
+1. Controllers 100% coesos para lembrar da nossa ideia de utilizar todos os atributos no controller.  
+2. Como você recebe os dados da requisição? Avalie se aproveitou a facilidade do framework.  
+3. Separou os dados da request do objeto de domínio? Veja sobre Form Value Objects.  
+4. Quanto mais externa é a borda, mais proteção temos.  
+5. Toda informação obrigatória entra pelo construtor. Uma opinião é de um usuário para um produto.  
+6. Teste o endpoint com Insomnia ou outro método.  
+7. Conte a carga intrínseca de cada classe.  
+8. Se já utiliza segurança no projeto, o framework deve fornecer acesso ao usuário logado no controller.  
+9. Como Alberto faria esse código.  
+
+### **informações de suporte para a combinação Java/Kotlin + Spring**
+1. Use `@RequestBody` para receber os dados da request como JSON.  
+2. Use `@Valid` para validar a entrada.  
+3. Utilize Bean Validation para validações padrão.  
+4. Criar um `@RestControllerAdvice` para customizar erros de validação.  
+5. Externalize as mensagens de erro no arquivo de configuração.  
+6. Use as anotações da Bean Validation para indicar restrições.  
+7. Explore a classe **Assert** do Spring (Design by Contract).  
+8. Configure o Spring Security conforme necessário.  
+9. Use `@AuthenticationPrincipal` para acessar o usuário logado.  
+10. Consulte os materiais para retornar status diferentes conforme o caso.  
