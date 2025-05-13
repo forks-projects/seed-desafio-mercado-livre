@@ -1,7 +1,7 @@
 package br.com.deveficiente.mercadolivre.compartilhado.validacao;
 
 import br.com.deveficiente.mercadolivre.compartilhado.databuilders.CaracteristicaRequestBuilder;
-import br.com.deveficiente.mercadolivre.produtos.CaracteristicaRequest;
+import br.com.deveficiente.mercadolivre.produtos.caracteristicas.CaracteristicaRequest;
 import jakarta.validation.ConstraintValidatorContext;
 import jakarta.validation.Payload;
 import org.junit.jupiter.api.BeforeEach;

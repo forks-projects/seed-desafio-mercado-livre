@@ -1,6 +1,6 @@
 package br.com.deveficiente.mercadolivre.compartilhado.databuilders;
 
-import br.com.deveficiente.mercadolivre.produtos.CaracteristicaRequest;
+import br.com.deveficiente.mercadolivre.produtos.caracteristicas.CaracteristicaRequest;
 
 public class CaracteristicaRequestBuilder {
 

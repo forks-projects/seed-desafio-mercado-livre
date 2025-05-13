@@ -1,5 +1,6 @@
-package br.com.deveficiente.mercadolivre.produtos;
+package br.com.deveficiente.mercadolivre.produtos.caracteristicas;
 
+import br.com.deveficiente.mercadolivre.produtos.Produto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

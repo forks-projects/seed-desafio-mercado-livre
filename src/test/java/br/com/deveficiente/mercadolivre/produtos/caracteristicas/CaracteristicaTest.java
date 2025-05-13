@@ -1,6 +1,7 @@
-package br.com.deveficiente.mercadolivre.produtos;
+package br.com.deveficiente.mercadolivre.produtos.caracteristicas;
 
 import br.com.deveficiente.mercadolivre.categorias.Categoria;
+import br.com.deveficiente.mercadolivre.produtos.Produto;
 import br.com.deveficiente.mercadolivre.usuarios.SenhaLimpa;
 import br.com.deveficiente.mercadolivre.usuarios.Usuario;
 import org.junit.jupiter.api.DisplayName;

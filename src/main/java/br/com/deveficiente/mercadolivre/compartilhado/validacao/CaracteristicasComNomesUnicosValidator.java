@@ -1,6 +1,6 @@
 package br.com.deveficiente.mercadolivre.compartilhado.validacao;
 
-import br.com.deveficiente.mercadolivre.produtos.CaracteristicaRequest;
+import br.com.deveficiente.mercadolivre.produtos.caracteristicas.CaracteristicaRequest;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

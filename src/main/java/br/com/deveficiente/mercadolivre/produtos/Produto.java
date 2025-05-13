@@ -1,6 +1,7 @@
 package br.com.deveficiente.mercadolivre.produtos;
 
 import br.com.deveficiente.mercadolivre.categorias.Categoria;
+import br.com.deveficiente.mercadolivre.produtos.caracteristicas.Caracteristica;
 import br.com.deveficiente.mercadolivre.produtos.imagens.ImagemProduto;
 import br.com.deveficiente.mercadolivre.usuarios.Usuario;
 import io.jsonwebtoken.lang.Assert;

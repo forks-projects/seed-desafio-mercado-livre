@@ -1,4 +1,4 @@
-package br.com.deveficiente.mercadolivre.produtos;
+package br.com.deveficiente.mercadolivre.produtos.caracteristicas;
 
 import io.jsonwebtoken.lang.Assert;
 import jakarta.validation.constraints.NotBlank;

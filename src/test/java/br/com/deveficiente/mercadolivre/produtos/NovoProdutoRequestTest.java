@@ -2,6 +2,7 @@ package br.com.deveficiente.mercadolivre.produtos;
 
 import br.com.deveficiente.mercadolivre.categorias.Categoria;
 import br.com.deveficiente.mercadolivre.compartilhado.databuilders.CaracteristicaRequestBuilder;
+import br.com.deveficiente.mercadolivre.produtos.caracteristicas.CaracteristicaRequest;
 import br.com.deveficiente.mercadolivre.usuarios.SenhaLimpa;
 import br.com.deveficiente.mercadolivre.usuarios.Usuario;
 import jakarta.persistence.EntityManager;

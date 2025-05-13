@@ -4,6 +4,8 @@ import br.com.deveficiente.mercadolivre.categorias.Categoria;
 import br.com.deveficiente.mercadolivre.compartilhado.validacao.CaracteristicasComNomesUnicos;
 import br.com.deveficiente.mercadolivre.compartilhado.validacao.ExisteId;
 import br.com.deveficiente.mercadolivre.compartilhado.validacao.ValorUnico;
+import br.com.deveficiente.mercadolivre.produtos.caracteristicas.Caracteristica;
+import br.com.deveficiente.mercadolivre.produtos.caracteristicas.CaracteristicaRequest;
 import br.com.deveficiente.mercadolivre.usuarios.Usuario;
 import jakarta.persistence.EntityManager;
 import jakarta.validation.Valid;
