@@ -3,6 +3,7 @@ package br.com.deveficiente.mercadolivre.produtos;
 import br.com.deveficiente.mercadolivre.categorias.Categoria;
 import br.com.deveficiente.mercadolivre.produtos.caracteristicas.Caracteristica;
 import br.com.deveficiente.mercadolivre.produtos.imagens.ImagemProduto;
+import br.com.deveficiente.mercadolivre.produtos.perguntas.PerguntaProduto;
 import br.com.deveficiente.mercadolivre.usuarios.Usuario;
 import io.jsonwebtoken.lang.Assert;
 import jakarta.persistence.CascadeType;
@@ -22,7 +23,9 @@ import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -65,6 +68,9 @@ public class Produto {
 
     @OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
     private Set<ImagemProduto> imagens = new HashSet<>();
+
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
+    private List<PerguntaProduto> perguntas = new ArrayList<>();
 
     private LocalDateTime dataHoraRegistro;
 
@@ -109,6 +115,13 @@ public class Produto {
         Assert.isTrue(!imagens.isEmpty(), "deve ter pelo menos 1 imagem");
         imagens.forEach(imagem -> imagem.associarProduto(this));
         this.imagens.addAll(imagens);
+    }
+
+    // dica/anotações para quem usar o construtor saber os valores obrigatórios
+    public void adicionarPergunta(@NotNull PerguntaProduto pergunta) {
+        //self testing/ design by contrato
+        Assert.notNull(pergunta, "Pergunta não pode ser nula");
+        this.perguntas.add(pergunta);
     }
 
     public boolean pertenceA(Usuario usuario) {
