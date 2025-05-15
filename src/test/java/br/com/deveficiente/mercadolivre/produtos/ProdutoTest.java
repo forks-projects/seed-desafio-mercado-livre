@@ -2,6 +2,7 @@ package br.com.deveficiente.mercadolivre.produtos;
 
 import br.com.deveficiente.mercadolivre.categorias.Categoria;
 import br.com.deveficiente.mercadolivre.produtos.caracteristicas.Caracteristica;
+import br.com.deveficiente.mercadolivre.produtos.perguntas.PerguntaProduto;
 import br.com.deveficiente.mercadolivre.usuarios.SenhaLimpa;
 import br.com.deveficiente.mercadolivre.usuarios.Usuario;
 import org.junit.jupiter.api.DisplayName;
@@ -14,6 +15,7 @@ import java.math.BigDecimal;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -89,6 +91,54 @@ class ProdutoTest {
         );
 
         assertTrue(exception.getMessage().contains("caracteristicas não pode ser nulo"));
+    }
+
+    @Test
+    @DisplayName("Deve adicionar pergunta no Produto")
+    void deveAdicionarPerguntaNoProduto() {
+        Categoria categoria = new Categoria("Tecnologia");
+        Usuario usuario = new Usuario("adriano@email.com", new SenhaLimpa("123456"));
+        Set<Caracteristica> caracteristicas = Set.of(
+                new Caracteristica("Tamanho", "6 polegadas"),
+                new Caracteristica("Cor", "Preto"),
+                new Caracteristica("Peso", "200g")
+        );
+        Produto produto = new Produto(
+                "Smartphone",
+                BigDecimal.valueOf(1500),
+                10,
+                "Um ótimo smartphone.",
+                categoria,
+                usuario,
+                caracteristicas
+        );
+        PerguntaProduto pergunta = new PerguntaProduto("titulo", produto, usuario);
+
+        assertDoesNotThrow(() -> produto.adicionarPergunta(pergunta));
+    }
+
+    @Test
+    @DisplayName("Deve lancarExceptionQuandoPerguntaNula")
+    void deveLancarExceptionQuandoPerguntaNula() {
+        Categoria categoria = new Categoria("Tecnologia");
+        Usuario usuario = new Usuario("adriano@email.com", new SenhaLimpa("123456"));
+        Set<Caracteristica> caracteristicas = Set.of(
+                new Caracteristica("Tamanho", "6 polegadas"),
+                new Caracteristica("Cor", "Preto"),
+                new Caracteristica("Peso", "200g")
+        );
+        Produto produto = new Produto(
+                "Smartphone",
+                BigDecimal.valueOf(1500),
+                10,
+                "Um ótimo smartphone.",
+                categoria,
+                usuario,
+                caracteristicas
+        );
+        PerguntaProduto pergunta = null;
+
+        assertThrows(IllegalArgumentException.class, () -> produto.adicionarPergunta(pergunta));
     }
 
     public static Stream<Arguments> listarCaracteristicasInvalidas() {
