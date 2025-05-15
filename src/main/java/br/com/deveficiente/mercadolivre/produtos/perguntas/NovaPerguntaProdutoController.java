@@ -47,12 +47,6 @@ public class NovaPerguntaProdutoController {
 
         // 1 ICP: Usuario
         Usuario usuario = usuarioLogado.getUsuario();
-        // 1 ICP: if
-        if(Objects.isNull(usuario)) {
-            int statusCode = HttpStatus.NOT_FOUND.value();
-            ResponseErroDTO responseErroDTO = new ResponseErroDTO(statusCode, "Usuário não encontrado");
-            return ResponseEntity.status(statusCode).body(responseErroDTO);
-        }
 
         // 1 ICP: PerguntaProduto
         PerguntaProduto perguntaProduto = novaPerguntaRequest.toModel(produto, usuario);
