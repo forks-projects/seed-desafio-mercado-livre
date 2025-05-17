@@ -24,8 +24,12 @@ import java.util.Objects;
 public class NovaPerguntaProdutoController {
     private final EntityManager entityManager;
 
-    public NovaPerguntaProdutoController(EntityManager entityManager) {
+    // 1ICP: Emails
+    private final Emails emailService;
+
+    public NovaPerguntaProdutoController(EntityManager entityManager, Emails emailService) {
         this.entityManager = entityManager;
+        this.emailService = emailService;
     }
 
     @PostMapping("/{idProduto}/perguntas")
@@ -51,6 +55,8 @@ public class NovaPerguntaProdutoController {
         // 1 ICP: PerguntaProduto
         PerguntaProduto perguntaProduto = novaPerguntaRequest.toModel(produto, usuario);
         entityManager.persist(perguntaProduto);
+
+        emailService.enviarEmailDuvidaCliente(perguntaProduto);
         return ResponseEntity.ok().build();
     }
 }

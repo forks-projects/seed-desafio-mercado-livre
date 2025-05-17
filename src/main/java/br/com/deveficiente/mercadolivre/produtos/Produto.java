@@ -127,4 +127,8 @@ public class Produto {
     public boolean pertenceA(Usuario usuario) {
         return this.usuario.equals(usuario);
     }
+
+    public String getEmailVendedor() {
+        return this.usuario.getLogin();
+    }
 }

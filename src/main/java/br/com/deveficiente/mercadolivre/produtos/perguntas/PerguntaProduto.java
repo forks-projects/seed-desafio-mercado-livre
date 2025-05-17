@@ -50,4 +50,11 @@ public class PerguntaProduto {
         this.dataHoraRegistro = LocalDateTime.now();
     }
 
+    public String getEmailCliente() {
+        return this.usuario.getLogin();
+    }
+
+    public String getEmailVendedor() {
+        return this.produto.getEmailVendedor();
+    }
 }
