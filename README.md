@@ -211,3 +211,56 @@ Um usuário logado pode opinar sobre um produto. Claro que o melhor era que isso
 8. Configure o Spring Security conforme necessário.  
 9. Use `@AuthenticationPrincipal` para acessar o usuário logado.  
 10. Consulte os materiais para retornar status diferentes conforme o caso.  
+
+## Faça uma pergunta ao vendedor(a)
+**explicação**
+
+Um usuário logado pode fazer uma pergunta sobre o produto
+
+**necessidades**
+
+- A pergunta tem um título
+- Tem instante de criação
+- O usuário que fez a pergunta
+- O produto relacionado a pergunta
+- O vendedor recebe um email com a pergunta nova e o link para a página de visualização do produto(ainda vai existir)
+  - o email não precisa ser de verdade. Pode ser apenas um print no console do servidor com o corpo.
+
+**restrições**
+
+- O título é obrigatório
+- O produto é obrigatório
+- O usuário é obrigatório
+
+**resultado esperado**
+
+- Uma nova pergunta é criada e a lista de perguntas, com a nova pergunta adicionada, é retornada. Status 200
+- Em caso de erro de validação, retorne 400 e o json com erros.
+
+**informações de suporte geral**
+
+- Controllers 100% coesos para lembrar você a nossa ideia de ter controllers que utilizam todos os atributos. Lembre que isso não quer dizer que o controller tem um método só, apenas que idealmente todos os métodos devem usar todos os atributos ou pelo menos a grande maioria deles.
+- Como foi que você fez para receber os dados da requisição? Será que aproveitou a facilidade do framework e recebeu a sua entidade(objeto que faz parte do domínio) direto no método mapeado para um endereço? Dá uma olhada nesse pilar aqui.
+- Dado que você separou os dados que chegam da request do objeto de domínio, como vai fazer para converter dessa entrada para o domínio? Sugiro olhar um pouco sobre nossa ideia de Form Value Objects.
+- Muitos dos problemas de uma aplicação vem do fato dela trabalhar com objetos em estado inválido. O ponto mais crítico em relação a isso é justamente quando os dados vêm de outra fonte, por exemplo um cliente externo. É por isso que temos o seguinte pilar: quanto mais externa é a borda mais proteção nós temos. Confira uma explicação sobre ele aqui e depois aqui
+- Lembre que toda informação natural e obrigatória entra pelo construtor. Um opinião é de um usuário para um produto. Além das outras informações obrigatórias. 
+- Na hora de enviar o email, você precisa construir as informações a partir da pergunta. Pode ser natural querer colocar esse código dentro da classe Pergunta ​​e faz até muito sentido. Deixei uma opinião aqui sobre isso.
+- Será que você pensou em listeners para resolver o envio do email? Eu sugiro que regras de negócio devem ser declaradas de maneira explícita na nossa aplicação. 
+- Utilize um insomnia ou qualquer outra forma para verificar o endpoint
+- Pegue cada uma das classes que você criou e realize a contagem da carga intrínseca. Esse é o viés de design que estamos trabalhando. Precisamos nos habituar a fazer isso para que se torne algo automático na nossa vida.
+- Caso você já esteja utilizando um projeto de segurança. O framework da sua escolha, integrado com algum outro projeto de segurança, deve permitir que você tenha acesso ao objeto que representa o usuário logado dentro do método do seu controller. 
+- Como Alberto faria esse código e como Alberto faria para enviar o email. 
+
+**informações de suporte para a combinação Java/Kotlin + Spring​**
+
+- Para receber os dados da request como json, temos a annotation @RequestBody
+- Usamos a annotation @Valid para pedir que os dados da request sejam validados
+- Para realizar as validações padrões existe a Bean Validation
+- Como criar um @RestControllerAdvice para customizar o json de saída com erros de validação
+- Como externalizar as mensagens de erro no arquivo de configuração.
+- Use e abuse das annotations da bean validation para indicar as restrições dos parâmetros. 
+- Brinque um pouco com a classe Assert​ ​do Spring para fazer checagens de parâmetro também. As ideias de Design By Contract ajudam demais a aumentar a confiabilidade da aplicação.
+- Para configurar o Spring Security olhe aqui
+- Lembrando que, para receber a referência para o usuário logado no método do controller, você pode usar a annotation @AuthenticationPrincipal​.
+- Para retornar status diferentes, consulte este material aqui
+- Uma solução muito utilizada no mercado para este tipo de situação é a criação de listeners. Eu até já escrevi sobre isso muito atrás . Eu sempre recomendo que regras que fazem parte do fluxo de negócio fiquem explícitas, para que sejam mais facilmente encontradas. 
