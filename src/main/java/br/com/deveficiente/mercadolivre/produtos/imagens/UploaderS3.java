@@ -25,7 +25,7 @@ public class UploaderS3 implements Uploader{
         System.out.println("=============================================");
         return imagens.imagens().stream().map(imagem -> {
             String nome = imagem.getOriginalFilename();
-            String url = "//bucketname/" + imagem.getName();
+            String url = "//bucketname/" + imagem.getOriginalFilename();
             return new ImagemProduto(nome, url);
         }).collect(Collectors.toSet());
     }
