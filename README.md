@@ -264,3 +264,28 @@ Um usuário logado pode fazer uma pergunta sobre o produto
 - Lembrando que, para receber a referência para o usuário logado no método do controller, você pode usar a annotation @AuthenticationPrincipal​.
 - Para retornar status diferentes, consulte este material aqui
 - Uma solução muito utilizada no mercado para este tipo de situação é a criação de listeners. Eu até já escrevi sobre isso muito atrás . Eu sempre recomendo que regras que fazem parte do fluxo de negócio fiquem explícitas, para que sejam mais facilmente encontradas. 
+
+## Escreva o código necessário para montar a página de detalhe
+
+**Explicação:**
+
+O front precisa montar essa página https://www.mercadolivre.com.br/bomba-galo-de-agua-recarregavel-dispenser-bivolt-usb-de-agua-bebedouro-20l-eletro-portateis-de-agua-guerra-luxo-padro-5-estrelas-cor-preto-com-prata/p/MLB38133829#polycard_client=search_best-seller-categories&wid=MLB5249922918&sid=search
+
+Não temos todas as informações, mas já temos bastante coisa. Faça, do jeito que achar melhor o código necessário para que o endpoint retorne as informações para que o front monte a página.
+
+**Informações que já temos como retornar:**
+
+* Links para imagens
+* Nome do produto
+* Preço do produto
+* Características do produto
+* Descrição do produto
+* Média de notas do produto
+* Número total de notas do produto
+* Opiniões sobre o produto
+* Perguntas para aquele produto
+
+**Informações de suporte geral:**
+
+1.  A prioridade é funcionar. Execute o seu código o mais rápido possível. Perceba que aqui você tem várias informações que devem ser retornadas. Se você escolher fazer tudo antes de executar a primeira requisição, vai demorar bastante ver seu código executando. O que pode dificultar achar os erros na primeira execução.
+2.  Como Alberto faria [parte 1], [parte 2] (calculando média), [parte 3] (refatora contagem opiniões).
