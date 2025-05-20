@@ -3,6 +3,7 @@ package br.com.deveficiente.mercadolivre.produtos;
 import br.com.deveficiente.mercadolivre.categorias.Categoria;
 import br.com.deveficiente.mercadolivre.produtos.caracteristicas.Caracteristica;
 import br.com.deveficiente.mercadolivre.produtos.imagens.ImagemProduto;
+import br.com.deveficiente.mercadolivre.produtos.opnioes.OpiniaoProduto;
 import br.com.deveficiente.mercadolivre.produtos.perguntas.PerguntaProduto;
 import br.com.deveficiente.mercadolivre.usuarios.Usuario;
 import io.jsonwebtoken.lang.Assert;
@@ -70,6 +71,9 @@ public class Produto {
     private Set<ImagemProduto> imagens = new HashSet<>();
 
     @OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
+    private Set<OpiniaoProduto> opinioes = new HashSet<>();
+
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
     private List<PerguntaProduto> perguntas = new ArrayList<>();
 
     private LocalDateTime dataHoraRegistro;
@@ -130,5 +134,41 @@ public class Produto {
 
     public String getEmailVendedor() {
         return this.usuario.getLogin();
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public BigDecimal getValor() {
+        return valor;
+    }
+
+    public Set<Caracteristica> getCaracteristicas() {
+        return caracteristicas;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public Set<OpiniaoProduto> getOpinioes() {
+        return opinioes;
+    }
+
+    public List<PerguntaProduto> getPerguntas() {
+        return perguntas;
+    }
+
+    public Set<ImagemProduto> getImagens() {
+        return imagens;
+    }
+
+    public double getNotaMedia() {
+        double media = this.getOpinioes().stream()
+                .mapToInt(OpiniaoProduto::getNota)
+                .average()
+                .orElse(0.0);
+        return Math.round(media * 100.0) / 100.0;
     }
 }

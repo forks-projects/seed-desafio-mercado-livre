@@ -58,4 +58,8 @@ public class ImagemProduto {
     public int hashCode() {
         return Objects.hash(nome, urlImagem, produto);
     }
+
+    public String getUrlImagem() {
+        return urlImagem;
+    }
 }

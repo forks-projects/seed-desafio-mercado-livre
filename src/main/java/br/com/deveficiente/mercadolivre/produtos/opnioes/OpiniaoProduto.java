@@ -60,4 +60,25 @@ public class OpiniaoProduto {
         this.produto = produto;
         this.usuario = usuario;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Integer getNota() {
+        return nota;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public String getEmailCliente() {
+        return this.usuario.getLogin();
+    }
+
 }

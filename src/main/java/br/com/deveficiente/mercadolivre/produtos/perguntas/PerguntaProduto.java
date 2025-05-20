@@ -57,4 +57,16 @@ public class PerguntaProduto {
     public String getEmailVendedor() {
         return this.produto.getEmailVendedor();
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public LocalDateTime getDataHoraRegistro() {
+        return dataHoraRegistro;
+    }
 }
