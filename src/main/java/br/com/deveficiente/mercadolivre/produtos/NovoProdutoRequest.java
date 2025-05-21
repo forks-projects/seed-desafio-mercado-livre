@@ -55,7 +55,7 @@ public record NovoProdutoRequest(
         //self testing/ design by contrato
         Assert.notNull(categoria, "Categoria deve existir");
         Assert.notNull(usuarioLogado, "Usuario não pode ser nulo");
-        Set<Caracteristica> caracteristicas = caracteristicasRequest.stream()
+        Set<Caracteristica> caracteristicas = caracteristicasRequest().stream()
                 .map(CaracteristicaRequest::toModel)
                 .collect(Collectors.toSet());
         return new Produto(nome(), valor(),quantidade(), descricao(), categoria, usuarioLogado,caracteristicas);

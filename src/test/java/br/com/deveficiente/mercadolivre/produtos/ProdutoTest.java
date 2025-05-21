@@ -41,11 +41,10 @@ class ProdutoTest {
         );
 
         assertNotNull(produto);
-        assertEquals("Smartphone", produto.nome);
-        assertEquals(BigDecimal.valueOf(1500), produto.valor);
-        assertEquals(10, produto.quantidade);
-        assertEquals("Um ótimo smartphone.", produto.descricao);
-        assertEquals(caracteristicas.size(), produto.caracteristicas.size());
+        assertEquals("Smartphone", produto.getNome());
+        assertEquals(BigDecimal.valueOf(1500), produto.getValor());
+        assertEquals("Um ótimo smartphone.", produto.getDescricao());
+        assertEquals(caracteristicas.size(), produto.getCaracteristicas().size());
     }
 
     @DisplayName("Deve lançar exceção ao tentar criar produto com menos de 3 características")

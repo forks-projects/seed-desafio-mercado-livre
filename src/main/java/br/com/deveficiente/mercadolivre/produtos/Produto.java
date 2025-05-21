@@ -40,19 +40,19 @@ public class Produto {
     private Long id;
 
     @NotBlank
-    String nome;
+    private String nome;
 
     @Positive
     @NotNull
-    BigDecimal valor;
+    private BigDecimal valor;
 
     @NotNull
     @Min(0)
-    Integer quantidade;
+    private Integer quantidade;
 
     @NotBlank
     @Size(max = 1000, min = 1)
-    String descricao;
+    private String descricao;
 
     @ManyToOne
     @NotNull
@@ -65,7 +65,7 @@ public class Produto {
     @Size(min = 3, message = "deve ter pelo menos 3 características")
     @NotNull
     @OneToMany(mappedBy = "produto", cascade = CascadeType.PERSIST)
-    Set<Caracteristica> caracteristicas = new HashSet<>();
+    private Set<Caracteristica> caracteristicas = new HashSet<>();
 
     @OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
     private Set<ImagemProduto> imagens = new HashSet<>();

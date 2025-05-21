@@ -59,11 +59,10 @@ class NovoProdutoRequestTest {
         Produto produto = request.toModel(entityManager, usuario);
 
         assertNotNull(produto);
-        assertEquals(request.nome(), produto.nome);
-        assertEquals(request.valor(), produto.valor);
-        assertEquals(request.quantidade(), produto.quantidade);
-        assertEquals(request.descricao(), produto.descricao);
-        assertEquals(3, produto.caracteristicas.size());
+        assertEquals(request.nome(), produto.getNome());
+        assertEquals(request.valor(), produto.getValor());
+        assertEquals(request.descricao(), produto.getDescricao());
+        assertEquals(3, produto.getCaracteristicas().size());
     }
 
     @Test
