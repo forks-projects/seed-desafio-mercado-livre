@@ -36,7 +36,8 @@ class NovaPerguntaRequestTest {
     @DisplayName("Deve cirar PerguntaProduto com dados validos")
     void deveCirarPerguntaProdutoComDadosValidos() {
         Categoria categoria = new Categoria("Tecnologia");
-        Usuario usuario = new Usuario("adriano@email.com", new SenhaLimpa("123456"));
+        Usuario usuarioVendedor = new Usuario("adriano@email.com", new SenhaLimpa("123456"));
+        Usuario usuarioCliente = new Usuario("adriano@email.com", new SenhaLimpa("123456"));
         Set<Caracteristica> caracteristicas = Set.of(
                 new Caracteristica("Tamanho", "6 polegadas"),
                 new Caracteristica("Cor", "Preto"),
@@ -48,12 +49,16 @@ class NovaPerguntaRequestTest {
                 10,
                 "Um ótimo smartphone.",
                 categoria,
-                usuario,
+                usuarioVendedor,
                 caracteristicas
         );
         NovaPerguntaRequest request = new NovaPerguntaRequest("titulo");
-        PerguntaProduto perguntaProduto = request.toModel(produto, usuario);
+        PerguntaProduto perguntaProduto = request.toModel(produto, usuarioCliente);
+
         Assertions.assertNotNull(perguntaProduto);
+        Assertions.assertEquals(request.titulo(), perguntaProduto.getTitulo());
+        Assertions.assertEquals(produto.getEmailVendedor(), perguntaProduto.getEmailVendedor());
+        Assertions.assertEquals(usuarioCliente.getLogin(), perguntaProduto.getEmailCliente());
     }
 
     @DisplayName("Deve falahar com titulo inválido")

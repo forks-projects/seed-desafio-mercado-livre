@@ -1,6 +1,7 @@
 package br.com.deveficiente.mercadolivre.produtos.opnioes;
 
 import br.com.deveficiente.mercadolivre.produtos.Produto;
+import br.com.deveficiente.mercadolivre.usuarios.SenhaLimpa;
 import br.com.deveficiente.mercadolivre.usuarios.Usuario;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -34,10 +35,13 @@ class OpiniaoProdutoRequestTest {
         OpiniaoProdutoRequest request = new OpiniaoProdutoRequest(5, "Excelente", "Produto de alta qualidade");
 
         Produto produto = new Produto();
-        Usuario usuario = new Usuario();
+        Usuario usuario = new Usuario("adriano@email.com", new SenhaLimpa("123456"));
 
         OpiniaoProduto opiniao = request.toModel(produto, usuario);
         assertNotNull(opiniao);
+        assertEquals(request.titulo(), opiniao.getTitulo());
+        assertEquals(request.descricao(), opiniao.getDescricao());
+        assertEquals(request.nota(), opiniao.getNota());
     }
 
     @DisplayName("Deve falhar com nota fora do intervalo = {0}")

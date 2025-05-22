@@ -19,6 +19,8 @@ class CaracteristicaRequestTest {
         Caracteristica caracteristica = request.toModel();
 
         assertNotNull(caracteristica);
+        assertEquals(request.nome(), caracteristica.getNome());
+        assertEquals(request.descricao(), caracteristica.getDescricao());
     }
 
     @DisplayName("Deve lançar exceção se o nome for nulo ou vazio")
