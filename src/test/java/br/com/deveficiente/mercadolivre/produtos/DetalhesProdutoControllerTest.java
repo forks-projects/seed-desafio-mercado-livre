@@ -2,7 +2,6 @@ package br.com.deveficiente.mercadolivre.produtos;
 
 import br.com.deveficiente.mercadolivre.compartilhado.seguranca.AutorizacaoHelper;
 import br.com.deveficiente.mercadolivre.compartilhado.seguranca.TokenManager;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -27,10 +27,6 @@ class DetalhesProdutoControllerTest {
 
     @Autowired
     private TokenManager tokenManager;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-//    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
     @DisplayName("Detalhamento de produto sem opinião")
@@ -129,5 +125,13 @@ class DetalhesProdutoControllerTest {
                 .andExpect(jsonPath("$.erro").value("Produto não encontrado"))
                 .andExpect(jsonPath("$.status").value(404))
         ;
+    }
+
+    @Test
+    @DisplayName("Busca detalhe de produto sem autenticação")
+    void buscaDetalheDeProdutoSemAutenticacao() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/v1/produtos/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
     }
 }
