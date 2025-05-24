@@ -1,0 +1,54 @@
+package br.com.deveficiente.mercadolivre.compras;
+
+import br.com.deveficiente.mercadolivre.compartilhado.excecao.ResponseErroDTO;
+import br.com.deveficiente.mercadolivre.compartilhado.seguranca.UsuarioLogado;
+import br.com.deveficiente.mercadolivre.produtos.Produto;
+import br.com.deveficiente.mercadolivre.usuarios.Usuario;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Objects;
+
+// controller 100% coeso
+@RestController
+@RequestMapping("/v1/compras")
+public class NovaCompraController {
+    private final EntityManager entityManager;
+
+    public NovaCompraController(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
+    @PostMapping
+    @Transactional
+    // 1ICP: NovaCompraRequest
+    // 1ICP: UsuarioLogado
+    public ResponseEntity<Object> cadastrar(@Valid @RequestBody NovaCompraRequest request,
+                                            @AuthenticationPrincipal UsuarioLogado usuarioLogado) {
+        // 1 ICP Usuario
+        Usuario usuario = usuarioLogado.getUsuario();
+        // 1 ICP Produto
+        Produto produto = entityManager.find(Produto.class, request.idProduto());
+        // 1 ICP if
+        if (Objects.isNull(produto)) {
+            int statusCode = HttpStatus.NOT_FOUND.value();
+            //1 ICP: ResponseErroDTO
+            ResponseErroDTO responseErroDTO = new ResponseErroDTO(
+                    statusCode,
+                    "Produto não encontrado",
+                    null);
+            return ResponseEntity.status(statusCode).body(responseErroDTO);
+        }
+        Compra compra = request.toModel(usuario, produto);
+        entityManager.persist(compra);
+        return ResponseEntity.ok().build();
+    }
+}
