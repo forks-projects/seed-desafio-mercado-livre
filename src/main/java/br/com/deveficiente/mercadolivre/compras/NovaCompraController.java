@@ -47,6 +47,9 @@ public class NovaCompraController {
                     null);
             return ResponseEntity.status(statusCode).body(responseErroDTO);
         }
+        produto.abaterEstoque(request.quantidade());
+        entityManager.merge(produto);
+        // 1 ICP: Compra
         Compra compra = request.toModel(usuario, produto);
         entityManager.persist(compra);
         return ResponseEntity.ok().build();

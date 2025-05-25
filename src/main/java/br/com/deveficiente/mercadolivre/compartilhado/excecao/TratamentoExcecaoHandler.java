@@ -9,7 +9,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -76,7 +75,7 @@ public class TratamentoExcecaoHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ResponseErroDTO> handleIllegalArgumentException(Exception exception) {
-        String mensagemErro = exception.getCause().getMessage();
+        String mensagemErro = exception.getMessage();
 
         ResponseErroDTO responseErroDTO = new ResponseErroDTO(
                 HttpStatus.BAD_REQUEST.value(),

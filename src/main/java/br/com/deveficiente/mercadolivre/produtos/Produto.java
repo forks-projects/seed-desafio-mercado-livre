@@ -171,4 +171,13 @@ public class Produto {
                 .orElse(0.0);
         return Math.round(media * 100.0) / 100.0;
     }
+
+    // dica/anotações para quem usar o construtor saber os valores obrigatórios
+    public void abaterEstoque(@Positive Integer quantidadeAbate) {
+        //self testing/ design by contrato
+        Assert.notNull(quantidadeAbate, "Quantidade de abate não pode ser nula");
+        Assert.isTrue(quantidadeAbate > 0, "Quantidade de abate deve ser maior que zero");
+        Assert.isTrue(this.quantidade >= quantidadeAbate, "Quantidade do produto insuficiente. Existe somente " + this.quantidade + " unidade(s) no estoque");
+        this.quantidade -= quantidadeAbate;
+    }
 }
