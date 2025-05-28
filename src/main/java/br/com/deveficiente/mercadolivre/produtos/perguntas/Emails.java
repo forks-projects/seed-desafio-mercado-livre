@@ -1,5 +1,6 @@
 package br.com.deveficiente.mercadolivre.produtos.perguntas;
 
+import br.com.deveficiente.mercadolivre.compras.Compra;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,15 @@ public class Emails {
                 pergunta.getEmailCliente(),
                 "novapergunta@nossomercadolivre.com",
                 pergunta.getEmailVendedor());
+    }
+
+    //1 ICP: Compra
+    public void enviarEmailCompraVendedor(@NotNull @Valid Compra compra) {
+        mailer.send("<html>...</html>",
+                "Nova compra recebida...",
+                "Sistema mercado livre",
+                "sistema@nossomercadolivre.com",
+                compra.getEmailVendedor());
     }
 
 }

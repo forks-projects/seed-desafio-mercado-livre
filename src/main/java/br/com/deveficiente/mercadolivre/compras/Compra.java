@@ -53,4 +53,12 @@ public class Compra {
         this.status = StatusCompra.INICIADA;
         this.formaPagmento = FormaPagmento.valueOf(formaPagamento);
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getEmailVendedor() {
+        return this.produto.getEmailVendedor();
+    }
 }

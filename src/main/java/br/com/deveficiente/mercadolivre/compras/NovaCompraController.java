@@ -1,12 +1,14 @@
 package br.com.deveficiente.mercadolivre.compras;
 
-import br.com.deveficiente.mercadolivre.compartilhado.excecao.ResponseErroDTO;
 import br.com.deveficiente.mercadolivre.compartilhado.seguranca.UsuarioLogado;
 import br.com.deveficiente.mercadolivre.produtos.Produto;
+import br.com.deveficiente.mercadolivre.produtos.perguntas.Emails;
 import br.com.deveficiente.mercadolivre.usuarios.Usuario;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.Serializable;
+import java.util.Map;
 import java.util.Objects;
 
 // controller 100% coeso
@@ -22,9 +26,15 @@ import java.util.Objects;
 @RequestMapping("/v1/compras")
 public class NovaCompraController {
     private final EntityManager entityManager;
+    // 1 ICP: Emails
+    private final Emails emails;
 
-    public NovaCompraController(EntityManager entityManager) {
+    @Value("${sistema.url-redirecionamento}")
+    private String urlRedirecionamento;
+
+    public NovaCompraController(EntityManager entityManager, Emails emails) {
         this.entityManager = entityManager;
+        this.emails = emails;
     }
 
     @PostMapping
@@ -40,18 +50,24 @@ public class NovaCompraController {
         // 1 ICP if
         if (Objects.isNull(produto)) {
             int statusCode = HttpStatus.NOT_FOUND.value();
-            //1 ICP: ResponseErroDTO
-            ResponseErroDTO responseErroDTO = new ResponseErroDTO(
-                    statusCode,
-                    "Produto não encontrado",
-                    null);
-            return ResponseEntity.status(statusCode).body(responseErroDTO);
+            Map<String, Object> informacoesErro = Map.of("status", statusCode, "erro", "Produto não encontrado");
+            return ResponseEntity.status(statusCode).body(informacoesErro);
         }
         produto.abaterEstoque(request.quantidade());
         entityManager.merge(produto);
         // 1 ICP: Compra
         Compra compra = request.toModel(usuario, produto);
         entityManager.persist(compra);
-        return ResponseEntity.ok().build();
+
+        emails.enviarEmailCompraVendedor(compra);
+
+        String urlGatewayPagamento = String.format(urlRedirecionamento,
+                request.formaPagamento().toLowerCase(),
+                compra.getId(),
+                compra.getId());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.LOCATION, urlGatewayPagamento);
+        return new ResponseEntity<>(headers, HttpStatus.FOUND);
     }
 }
