@@ -134,6 +134,12 @@
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<excludes>
+						<exclude>br/com/deveficiente/mercadolivre/produtos/imagens/UploaderFake*</exclude>
+						<exclude>br/com/deveficiente/mercadolivre/compartilhado/excecao/TratamentoExcecaoHandler*</exclude>
+					</excludes>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
