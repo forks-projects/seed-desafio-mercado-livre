@@ -164,6 +164,10 @@ public class Produto {
         return imagens;
     }
 
+    public Integer getQuantidade() {
+        return quantidade;
+    }
+
     public double getNotaMedia() {
         double media = this.getOpinioes().stream()
                 .mapToInt(OpiniaoProduto::getNota)

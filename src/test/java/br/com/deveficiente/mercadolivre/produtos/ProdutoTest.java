@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.math.BigDecimal;
 import java.util.Set;
@@ -163,6 +164,84 @@ class ProdutoTest {
         Set<ImagemProduto> listaImagemVazia = Set.of();
 
         assertThrows(IllegalArgumentException.class, () -> produto.adicionarImagens(listaImagemVazia));
+    }
+
+    @DisplayName("Deve abater quantidade de produto")
+    @ParameterizedTest
+    @ValueSource(ints = { 1, 2, 10 })
+    void deveAbaterQuantidadeDeProduto(Integer quantidadeAbate) {
+        Categoria categoria = new Categoria("Tecnologia");
+        Usuario usuario = new Usuario("adriano@email.com", new SenhaLimpa("123456"));
+        Set<Caracteristica> caracteristicas = Set.of(
+                new Caracteristica("Tamanho", "6 polegadas"),
+                new Caracteristica("Cor", "Preto"),
+                new Caracteristica("Peso", "200g")
+        );
+
+        Produto produto = new Produto(
+                "Smartphone",
+                BigDecimal.valueOf(1500),
+                10,
+                "Um ótimo smartphone.",
+                categoria,
+                usuario,
+                caracteristicas
+        );
+
+        produto.abaterEstoque(quantidadeAbate);
+
+        int quantidadeEsperada = 10 - quantidadeAbate;
+        assertEquals(quantidadeEsperada, produto.getQuantidade());
+    }
+
+    @DisplayName("Deve lancar excecao quando quantidade invalida")
+    @ParameterizedTest
+    @ValueSource(ints = {-10, -1, 0})
+    void deveLancarExcecaoQuandoQuantidadeInvalida(Integer quantidadeAbate) {
+        Categoria categoria = new Categoria("Tecnologia");
+        Usuario usuario = new Usuario("adriano@email.com", new SenhaLimpa("123456"));
+        Set<Caracteristica> caracteristicas = Set.of(
+                new Caracteristica("Tamanho", "6 polegadas"),
+                new Caracteristica("Cor", "Preto"),
+                new Caracteristica("Peso", "200g")
+        );
+
+        Produto produto = new Produto(
+                "Smartphone",
+                BigDecimal.valueOf(1500),
+                10,
+                "Um ótimo smartphone.",
+                categoria,
+                usuario,
+                caracteristicas
+        );
+
+        assertThrows(IllegalArgumentException.class, () -> produto.abaterEstoque(quantidadeAbate));
+    }
+
+    @DisplayName("Deve lancar excecao ao abater quantidade maior que estoque")
+    @ParameterizedTest
+    @ValueSource(ints = {11, 12, 999 })
+    void deveLancarExcecaoAoAbaterQuantidadeMaiorQueEstoque(Integer quantidadeAbate) {
+        Categoria categoria = new Categoria("Tecnologia");
+        Usuario usuario = new Usuario("adriano@email.com", new SenhaLimpa("123456"));
+        Set<Caracteristica> caracteristicas = Set.of(
+                new Caracteristica("Tamanho", "6 polegadas"),
+                new Caracteristica("Cor", "Preto"),
+                new Caracteristica("Peso", "200g")
+        );
+
+        Produto produto = new Produto(
+                "Smartphone",
+                BigDecimal.valueOf(1500),
+                10,
+                "Um ótimo smartphone.",
+                categoria,
+                usuario,
+                caracteristicas
+        );
+
+        assertThrows(IllegalArgumentException.class, () -> produto.abaterEstoque(quantidadeAbate));
     }
 
     public static Stream<Arguments> listarCaracteristicasInvalidas() {

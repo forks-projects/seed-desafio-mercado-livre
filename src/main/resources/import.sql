@@ -14,3 +14,9 @@ INSERT INTO caracteristicas (id, produto_id, descricao, nome) VALUES (default, 3
 INSERT INTO imagens_produto (id, produto_id, nome, url_imagem) VALUES (default, 3, '_sunflower.jpg', '//bucketname/_sunflower.jpg'), (default, 3, '_download.png', '//bucketname/_download.png');
 INSERT INTO opinioes_produto (nota, id, produto_id, usuario_id, descricao, titulo) VALUES (5, default, 3, 1, 'Voluntarius agnitio claustrum adnuo.', 'opniao 3141 Crona Glens'), (3, default, 3, 2, 'Sit truculenter turba incidunt.', 'opniao 9956 Oceane Camp');
 INSERT INTO perguntas_produto (data_hora_registro, id, produto_id, usuario_id, titulo) VALUES ('2025-05-18 14:38:22.529804', default, 3, 2, 'pergunta appono turbo curriculum');
+
+INSERT INTO produtos ( id, nome, descricao, quantidade, valor, categoria_id, usuario_id, data_hora_registro ) VALUES ( default, 'Smartwatch Xtreme', 'Um smartwatch completo com GPS e monitor de batimentos cardíacos.', 99999999, 299.99, 2, 1, '2025-05-27 10:39:00.000000' );
+INSERT INTO caracteristicas (id, produto_id, descricao, nome) VALUES (default, 4, '50g', 'peso'), (default, 4, 'azul marinho', 'cor'), (default, 4, 'FitTech', 'marca'), (default, 4, 'Tela AMOLED 1.4 polegadas', 'tela');
+INSERT INTO imagens_produto (id, produto_id, nome, url_imagem) VALUES (default, 4, 'smartwatch_azul.jpg', '//bucketname/smartwatch_azul.jpg'), (default, 4, 'smartwatch_tela.png', '//bucketname/smartwatch_tela.png');
+INSERT INTO opinioes_produto (nota, id, produto_id, usuario_id, descricao, titulo) VALUES (4, default, 4, 2, 'Excelente para atividades físicas, bateria dura bastante.', 'Ótimo custo-benefício'), (5, default, 4, 1, 'Muito bonito e funcional, recomendo!', 'Perfeito para o dia a dia');
+INSERT INTO perguntas_produto (data_hora_registro, id, produto_id, usuario_id, titulo) VALUES ('2025-05-27 10:39:00.000000', default, 4, 2, 'É resistente à água?');
