@@ -2,6 +2,7 @@ package br.com.deveficiente.mercadolivre.produtos.perguntas;
 
 import br.com.deveficiente.mercadolivre.compartilhado.excecao.ResponseErroDTO;
 import br.com.deveficiente.mercadolivre.compartilhado.seguranca.UsuarioLogado;
+import br.com.deveficiente.mercadolivre.compartilhado.service.Emails;
 import br.com.deveficiente.mercadolivre.produtos.Produto;
 import br.com.deveficiente.mercadolivre.usuarios.Usuario;
 import jakarta.persistence.EntityManager;

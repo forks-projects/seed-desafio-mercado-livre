@@ -2,7 +2,7 @@ package br.com.deveficiente.mercadolivre.compras;
 
 import br.com.deveficiente.mercadolivre.compartilhado.seguranca.UsuarioLogado;
 import br.com.deveficiente.mercadolivre.produtos.Produto;
-import br.com.deveficiente.mercadolivre.produtos.perguntas.Emails;
+import br.com.deveficiente.mercadolivre.compartilhado.service.Emails;
 import br.com.deveficiente.mercadolivre.usuarios.Usuario;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
