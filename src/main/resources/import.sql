@@ -20,3 +20,6 @@ INSERT INTO caracteristicas (id, produto_id, descricao, nome) VALUES (default, 4
 INSERT INTO imagens_produto (id, produto_id, nome, url_imagem) VALUES (default, 4, 'smartwatch_azul.jpg', '//bucketname/smartwatch_azul.jpg'), (default, 4, 'smartwatch_tela.png', '//bucketname/smartwatch_tela.png');
 INSERT INTO opinioes_produto (nota, id, produto_id, usuario_id, descricao, titulo) VALUES (4, default, 4, 2, 'Excelente para atividades físicas, bateria dura bastante.', 'Ótimo custo-benefício'), (5, default, 4, 1, 'Muito bonito e funcional, recomendo!', 'Perfeito para o dia a dia');
 INSERT INTO perguntas_produto (data_hora_registro, id, produto_id, usuario_id, titulo) VALUES ('2025-05-27 10:39:00.000000', default, 4, 2, 'É resistente à água?');
+
+-- inserção de compras
+INSERT INTO compras (id, usuario_id, produto_id, quantidade, forma_pagmento, status) VALUES (default, 1, 3, 1, 0, 0);
