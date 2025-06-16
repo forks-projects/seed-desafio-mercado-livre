@@ -1,5 +1,5 @@
 # seed-desafio-mercado-livre
-Atividade prática do [treinamento Deveficiente](https://deveficiente.com/o).
+Atividade prática do [treinamento Deveficiente](https://deveficiente.com/).
 
 ```bash
 mvn clean verify
@@ -357,3 +357,59 @@ Aqui é para ser muito recompensador\! Você já se esforçou demais, fez muita 
 7.  Brinque um pouco com a classe `Assert` do Spring para fazer checagens de parâmetro também. As ideias de Design By Contract ajudam demais a aumentar a confiabilidade da aplicação.
 8.  Para configurar o Spring Security olhe aqui
 9.  Lembrando que, para receber a referência para o usuário logado no método do controller, você pode usar a annotation `@AuthenticationPrincipal`.
+
+## Realmente finaliza a compra - parte 2
+### contexto
+Aqui estamos lidando com o retorno do gateway de pagamento
+
+### necessidades
+O meio de pagamento(pagseguro ou paypal) redireciona para a aplicação passando no mínimo 3 argumentos:
+
+- id da compra no sistema de origem
+- id do pagamento na plataforma escolhida
+- status da compra. Para o status vamos assumir os dois básicos(Sucesso, Falha). Os gateways de pagamento informam isso de maneira distinta.
+  - Paypal retorna o número 1 para sucesso e o número 0 para erro.
+  - Pagseguro retorna a string SUCESSO ou ERRO.
+
+Temos alguns passos aqui.
+
+- Precisamos registrar a tentativa de pagamento com todas as informações envolvidas. Além das citadas, é necessário registrar o exato instante do processamento do retorno do pagamento.
+- Caso a compra tenha sido concluída com sucesso:
+- precisamos nos comunicar com o setor de nota fiscal que é um outro sistema. Ele precisa receber apenas receber o id da compra e o id do usuário que fez a compra.
+- Neste momento você não precisa criar outro projeto para simular isso. Crie um controller com um endpoint fake e faça uma chamada local mesmo.
+- também precisamos nos comunicar com o sistema de ranking dos vendedores. Esse sistema recebe o id da compra e o id do vendedor.
+- Neste momento você não precisa criar outro projeto para simular isso. Faça uma chamada local mesmo.
+  - para fechar precisamos mandar um email para quem comprou avisando da conclusão com sucesso. Pode colocar o máximo de informações da compra que puder.
+-Caso a compra não tenha sido concluída com sucesso, precisamos:
+  - enviar um email para o usuário informando que o pagamento falhou com o link para que a pessoa possa tentar de novo.
+
+### restrição
+- id de compra, id de transação e status são obrigatórios para todas urls de retorno de dentro da aplicação.
+- O id de uma transação que vem de alguma plataforma de pagamento só pode ser processado com sucesso uma vez.
+- A transação da plataforma(qualquer que seja) de id X para uma compra Y só pode ser processada com sucesso uma vez.
+- Uma transação que foi concluída com sucesso não pode ter seu status alterado para qualquer coisa outra coisa.
+- Não podemos ter duas transações com mesmo id de plataforma externa associada a uma compra. 
+
+### Desafio extra 1
+- O email não precisa ser real, manda um syso. Mas o sistema precisa estar preparado para enviar email real em produção.
+
+### Desafio extra 2
+- Temos duas plataformas de pagamento externas neste momento, e se eu te disser que vamos ter mais, como seu código ficaria preparado para esse requisito de negócio?
+​
+### resultado esperado
+- Status 200 dizendo retornando o status do pagamento.
+- Em caso de erro de validação, retorne 400 e o json com erros.
+
+### você está no super filé do código
+Passou pela primeira parte do fechamento da compra? Agora é ainda mais desafiador. Você vai precisar juntar tudo que trabalhamos. E ainda tem uma coisa especial que é uma necessidade mais forte de generalização. Eu espero que você aproveite e fique ainda mais preparado(a) para enfrentar os próximos desafios. 
+
+### informações de suporte geral
+1- Lembre que uma das coisas mais importante do pilar "a prioridade é funcionar" é que você deve maximizar a execução do seu código. Planeje o que você quer fazer e implemente passo a passo. Faça uma pequena parte e execute. 
+2- Quais restrições você pode colocar na compra para garantir que ela nunca tenha tentativas de pagamentos num estado inválido associado a ela? 
+3- Você tem um desafio grande de divisão de responsabilidade aqui. São muitas coisas que precisam ser feitas. Como que você vai usar nossa estratégia de design de código para manter esse código entendível?
+4- Como você vai associar tentativas de pagamento que vem de gateways diferentes?
+5- Será que você if para gerar as tentativas de pagamento de gateways diferentes?
+6- Faça a análise do código e verifique o que precisa ser testado! Provavelmente você tem código para controlar transações únicas entre plataformas? Deve também ter código para controlar que apenas uma transação pode ser concluída com sucesso por compra! O que vai testar de tudo isso?
+7- Pegue cada uma das classes que você criou e realize a contagem da carga intrínseca. Esse é o viés de design que estamos trabalhando. Precisamos nos habituar a fazer isso para que se torne algo automático na nossa vida.
+8- Como Alberto faria esse código? Parte 1, parte 2, parte 3
+9 -Como Alberto testaria esse código? Parte 1, parte 2.
