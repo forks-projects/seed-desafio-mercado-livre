@@ -58,7 +58,15 @@ public class Compra {
         return id;
     }
 
+    public FormaPagmento getFormaPagmento() {
+        return formaPagmento;
+    }
+
     public String getEmailVendedor() {
         return this.produto.getEmailVendedor();
+    }
+
+    public String getEmailCliente() {
+        return this.usuario.getLogin();
     }
 }

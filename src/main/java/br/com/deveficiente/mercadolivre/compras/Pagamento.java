@@ -22,9 +22,15 @@ public class Pagamento {
     @OneToOne
     private Compra compra;
 
+    /**
+     * Somente para uso do ORM
+     */
+    @Deprecated
     public Pagamento() {
     }
 
+    // Informação natural e obrigatória entra pelo construtor
+    // dica (anotações) para quem usar o construtor
     public Pagamento(@NotBlank @NotBlank String idPagamento,
                      @NotNull StatusPagamento statusPagamento,
                      @NotNull Compra compra) {
@@ -33,4 +39,21 @@ public class Pagamento {
         this.compra = compra;
         this.dataHoraRegistro = LocalDateTime.now();
     }
+
+    public String getIdPagamento() {
+        return idPagamento;
+    }
+
+    public StatusPagamento getStatusPagamento() {
+        return statusPagamento;
+    }
+
+    public Compra getCompra() {
+        return compra;
+    }
+
+    public void atualizaStatus(@NotNull StatusPagamento  statusPagamento) {
+        this.statusPagamento = statusPagamento;
+    }
+
 }
