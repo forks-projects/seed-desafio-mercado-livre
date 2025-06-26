@@ -57,7 +57,7 @@ public record RetornoPagamentoRequest(
             Pagamento pagamento = (Pagamento) resultList.get(0);
             //1 ICP: if
             if (!Objects.equals(pagamento.getIdPagamento(), idPagamento)) {
-                throw new IllegalArgumentException("Esta compra está associada a outro pagamento" + idCompra);
+                throw new IllegalArgumentException("Esta compra está associada a outro pagamento. Id da compra: " + idCompra);
             }
         }
         //1 ICP: StatusPagamento
