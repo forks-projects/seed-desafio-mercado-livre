@@ -1,11 +1,16 @@
 # seed-desafio-mercado-livre
 Atividade prática do [treinamento Deveficiente](https://deveficiente.com/).
+Executa somente os testes unitários:
+```bash
+mvn clean test
+```
 
+Executa todos os testes com relatório de cobertura:
 ```bash
 mvn clean verify
 ```
 
-> Para consultar a cobertura de testes acesso o arquivo `target/site/jacoco/index.html` no seu navegador.
+> Para consultar a cobertura dos testes, acesse o arquivo `seed-desafio-mercado-livre/target/site/jacoco-merged/index.html` no seu navegador.
 
 ## Cadastro de Novo Usuário
 
