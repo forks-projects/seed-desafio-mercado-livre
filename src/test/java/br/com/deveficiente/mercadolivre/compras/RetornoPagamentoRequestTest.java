@@ -213,8 +213,6 @@ class RetornoPagamentoRequestTest {
         verify(query, times(1)).setParameter("pIdCompra", idCompra);
     }
 
-// fazer
-
     @Test
     @DisplayName("Deve criar pagamento com status sucesso quando pagamento já está cadastrado com status de erro")
     void deveCriarPagamentoComStatusSucessoQuandoPagamentoJaEstaCadastradoComStatusErro() {

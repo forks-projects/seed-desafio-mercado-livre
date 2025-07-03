@@ -80,6 +80,88 @@ class RetornoCompraControllerTest {
 
     }
 
+    @Property(tries = 10)
+    @Label("Cadastrar retorno compra com erro")
+    void cadastrarRetornoCompraComErro(
+            @ForAll @IntRange(min = 1, max = 1000) int quantidade,
+            @ForAll FormaPagmento formaPagamento
+    ) throws Exception {
+        int idProduto = 4;
+        Map<String, Object> payload = Map.of(
+                "idProduto", idProduto,
+                "quantidade", quantidade,
+                "formaPagamento", formaPagamento
+        );
+
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post("/v1/compras")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .headers(new AutorizacaoHelper().getAuthorization(tokenManager))
+                        .content(objectMapper.writeValueAsString(payload)))
+                .andReturn();
+        String headerUrlRedirecionamento = mvcResult.getResponse().getHeader(HttpHeaders.LOCATION);
+        String idCompra = extrairIdUrl(headerUrlRedirecionamento);
+
+        UUID uuid = UUID.randomUUID();
+        Map<String, Object> payloadRetorno = Map.of(
+                "idPagamento", uuid.toString(),
+                "idCompra", idCompra,
+                "statusPagamento", "ERRO"
+        );
+
+        mvc.perform(MockMvcRequestBuilders.post("/v1/retornos-pagamento")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .headers(new AutorizacaoHelper().getAuthorization(tokenManager))
+                        .content(objectMapper.writeValueAsString(payloadRetorno)))
+                .andExpect(status().isOk());
+    }
+
+    @Property(tries = 10)
+    @Label("Cadastrar retorno compra com status sucesso quando pagamento já está cadastrado com status de erro")
+    void cadastrarRetornoCompraComStatusSucessoQuandoPagamentoJaEstaRegistradoComStatusErro(
+            @ForAll @IntRange(min = 1, max = 1000) int quantidade,
+            @ForAll FormaPagmento formaPagamento
+    ) throws Exception {
+        int idProduto = 4;
+        Map<String, Object> payload = Map.of(
+                "idProduto", idProduto,
+                "quantidade", quantidade,
+                "formaPagamento", formaPagamento
+        );
+
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post("/v1/compras")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .headers(new AutorizacaoHelper().getAuthorization(tokenManager))
+                        .content(objectMapper.writeValueAsString(payload)))
+                .andReturn();
+        String headerUrlRedirecionamento = mvcResult.getResponse().getHeader(HttpHeaders.LOCATION);
+        String idCompra = extrairIdUrl(headerUrlRedirecionamento);
+
+        UUID uuid = UUID.randomUUID();
+        String idPagamentoErro = uuid.toString();
+        Map<String, Object> payloadRetornoStatusErro = Map.of(
+                "idPagamento", idPagamentoErro,
+                "idCompra", idCompra,
+                "statusPagamento", "ERRO"
+        );
+
+        mvc.perform(MockMvcRequestBuilders.post("/v1/retornos-pagamento")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .headers(new AutorizacaoHelper().getAuthorization(tokenManager))
+                        .content(objectMapper.writeValueAsString(payloadRetornoStatusErro)));
+
+        Map<String, Object> payloadRetornoStatusSucesso = Map.of(
+                "idPagamento", idPagamentoErro,
+                "idCompra", idCompra,
+                "statusPagamento", "SUCESSO"
+        );
+
+        mvc.perform(MockMvcRequestBuilders.post("/v1/retornos-pagamento")
+                .contentType(MediaType.APPLICATION_JSON)
+                .headers(new AutorizacaoHelper().getAuthorization(tokenManager))
+                .content(objectMapper.writeValueAsString(payloadRetornoStatusSucesso)))
+                .andExpect(status().isOk());
+    }
+
     public static String extrairIdUrl(String url) {
         Pattern pattern = Pattern.compile("/(\\d+)$");
         Matcher matcher = pattern.matcher(url);
