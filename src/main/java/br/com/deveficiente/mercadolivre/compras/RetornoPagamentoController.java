@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/v1/retornos-pagamento")
-public class RetornoCompraController {
+public class RetornoPagamentoController {
     private final EntityManager entityManager;
 
     //1 ICP: Emails
@@ -23,7 +23,7 @@ public class RetornoCompraController {
     @Value("${sistema.url-redirecionamento}")
     private String urlRedirecionamento;
 
-    public RetornoCompraController(EntityManager entityManager, Emails emails) {
+    public RetornoPagamentoController(EntityManager entityManager, Emails emails) {
         this.entityManager = entityManager;
         this.emails = emails;
     }

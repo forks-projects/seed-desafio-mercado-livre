@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @JqwikSpringSupport
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-class RetornoCompraControllerTest {
+class RetornoPagamentoControllerTest {
     @Autowired
     private MockMvc mvc;
 
