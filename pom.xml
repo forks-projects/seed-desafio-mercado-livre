@@ -243,6 +243,7 @@
 					<excludes>
 						<exclude>br/com/deveficiente/mercadolivre/produtos/imagens/UploaderFake*</exclude>
 						<exclude>br/com/deveficiente/mercadolivre/compartilhado/excecao/TratamentoExcecaoHandler*</exclude>
+						<exclude>br/com/deveficiente/mercadolivre/sistema_fake/*</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
