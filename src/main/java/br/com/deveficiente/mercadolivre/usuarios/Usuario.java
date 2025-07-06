@@ -61,6 +61,10 @@ public class Usuario {
         this.dataHoraRegistro = LocalDateTime.now();
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getLogin() {
         return login;
     }

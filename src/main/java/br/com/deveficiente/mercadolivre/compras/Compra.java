@@ -62,11 +62,20 @@ public class Compra {
         return formaPagmento;
     }
 
+    public Long getIdVendedor() {
+        return this.produto.getIdVendedor();
+    }
+
     public String getEmailVendedor() {
         return this.produto.getEmailVendedor();
+    }
+
+    public Long getIdCliente() {
+        return this.usuario.getId();
     }
 
     public String getEmailCliente() {
         return this.usuario.getLogin();
     }
+
 }

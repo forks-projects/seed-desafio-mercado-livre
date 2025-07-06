@@ -56,4 +56,11 @@ public class Pagamento {
         this.statusPagamento = statusPagamento;
     }
 
+    public Long getIdCliente() {
+        return compra.getIdCliente();
+    }
+
+    public Long getIdVendedor() {
+        return compra.getIdVendedor();
+    }
 }

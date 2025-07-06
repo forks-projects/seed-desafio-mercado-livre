@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/v1/retornos-pagamento")
@@ -20,12 +21,21 @@ public class RetornoPagamentoController {
     //1 ICP: Emails
     private final Emails emails;
 
+    private final RestTemplate restTemplate;
+
     @Value("${sistema.url-redirecionamento}")
     private String urlRedirecionamento;
 
-    public RetornoPagamentoController(EntityManager entityManager, Emails emails) {
+    @Value("${sistema.externo.notas-fiscais}")
+    private String urlSistemaExternoNotasFiscais;
+
+    @Value("${sistema.externo.rankings}")
+    private String urlSistemaExternoRankings;
+
+    public RetornoPagamentoController(EntityManager entityManager, Emails emails, RestTemplate restTemplate) {
         this.entityManager = entityManager;
         this.emails = emails;
+        this.restTemplate = restTemplate;
     }
 
     @PostMapping
@@ -59,6 +69,14 @@ public class RetornoPagamentoController {
             System.out.println("======================================");
             System.out.println("Envia para outros serviços");
             System.out.println("======================================");
+
+            //1 ICP: NotaFiscalRequest
+            NotaFiscalRequest notaFiscalRequest = new NotaFiscalRequest(request.idCompra(), pagamento.getIdCliente());
+            restTemplate.postForEntity(this.urlSistemaExternoNotasFiscais, notaFiscalRequest, Void.class);
+
+            //1 ICP: RankingRequest
+            RankingRequest rankingRequest = new RankingRequest(request.idCompra(), pagamento.getIdVendedor());
+            restTemplate.postForEntity(this.urlSistemaExternoRankings, rankingRequest, Void.class);
         }
         return ResponseEntity.ok().build();
     }

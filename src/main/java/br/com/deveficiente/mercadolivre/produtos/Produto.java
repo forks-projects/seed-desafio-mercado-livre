@@ -132,6 +132,10 @@ public class Produto {
         return this.usuario.equals(usuario);
     }
 
+    public Long getIdVendedor() {
+        return this.usuario.getId();
+    }
+
     public String getEmailVendedor() {
         return this.usuario.getLogin();
     }

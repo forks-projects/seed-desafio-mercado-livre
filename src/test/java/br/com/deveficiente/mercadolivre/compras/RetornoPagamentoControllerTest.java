@@ -17,9 +17,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
 import java.util.UUID;
@@ -42,6 +44,9 @@ class RetornoPagamentoControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @MockitoBean
+    private RestTemplate restTemplate;
 
     @Property(tries = 10)
     @Label("Cadastro de retorno de compra com sucesso")
@@ -77,7 +82,6 @@ class RetornoPagamentoControllerTest {
                 .headers(new AutorizacaoHelper().getAuthorization(tokenManager))
                 .content(objectMapper.writeValueAsString(payloadRetorno)))
                 .andExpect(status().isOk());
-
     }
 
     @Property(tries = 10)
