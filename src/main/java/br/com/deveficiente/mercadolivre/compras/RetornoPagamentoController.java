@@ -77,6 +77,8 @@ public class RetornoPagamentoController {
             //1 ICP: RankingRequest
             RankingRequest rankingRequest = new RankingRequest(request.idCompra(), pagamento.getIdVendedor());
             restTemplate.postForEntity(this.urlSistemaExternoRankings, rankingRequest, Void.class);
+
+            emails.enviarEmailClienteConclusaoPagamento(pagamento.getCompra());
         }
         return ResponseEntity.ok().build();
     }

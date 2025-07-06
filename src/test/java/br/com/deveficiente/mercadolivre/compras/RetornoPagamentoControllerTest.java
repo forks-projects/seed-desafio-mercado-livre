@@ -101,6 +101,7 @@ class RetornoPagamentoControllerTest {
 
         verify(restTemplate, times(1)).postForEntity(eq(urlSistemaExternoNotasFiscais), any(NotaFiscalRequest.class), eq(Void.class));
         verify(restTemplate, times(1)).postForEntity(eq(urlSistemaExternoRankings), any(RankingRequest.class), eq(Void.class));
+        verify(emails, times(1)).enviarEmailClienteConclusaoPagamento(any(Compra.class));
     }
 
     @Property(tries = 1)
@@ -188,6 +189,7 @@ class RetornoPagamentoControllerTest {
 
         verify(restTemplate, times(1)).postForEntity(eq(urlSistemaExternoNotasFiscais), any(NotaFiscalRequest.class), eq(Void.class));
         verify(restTemplate, times(1)).postForEntity(eq(urlSistemaExternoRankings), any(RankingRequest.class), eq(Void.class));
+        verify(emails, times(1)).enviarEmailClienteConclusaoPagamento(any(Compra.class));
     }
 
     public static String extrairIdUrl(String url) {

@@ -58,6 +58,14 @@ public class Compra {
         return id;
     }
 
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public Integer getQuantidade() {
+        return quantidade;
+    }
+
     public FormaPagmento getFormaPagmento() {
         return formaPagmento;
     }
