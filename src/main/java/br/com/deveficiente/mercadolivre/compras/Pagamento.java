@@ -40,6 +40,10 @@ public class Pagamento {
         this.dataHoraRegistro = LocalDateTime.now();
     }
 
+    public boolean isPagamentoProcessadoComSucesso() {
+        return this.statusPagamento.equals(StatusPagamento.SUCESSO);
+    }
+
     public String getIdPagamento() {
         return idPagamento;
     }
