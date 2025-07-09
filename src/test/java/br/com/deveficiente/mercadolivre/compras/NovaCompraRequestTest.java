@@ -51,11 +51,15 @@ class NovaCompraRequestTest {
     void deveCriarCompraComDadosValidos() {
         Produto produto = criaProdutoValido();
         Usuario usuario = criaUsuario();
-        NovaCompraRequest request = new NovaCompraRequest(2, 1L, "PAYPAL");
+        int quantidade = 2;
+        NovaCompraRequest request = new NovaCompraRequest(quantidade, 1L, "PAYPAL");
 
         Compra compra = request.toModel(usuario, produto);
 
         assertNotNull(compra);
+        assertEquals(compra.getEmailVendedor(), produto.getEmailVendedor());
+        assertEquals(compra.getProduto(), produto);
+        assertEquals(compra.getQuantidade(), quantidade);
     }
 
     @Test

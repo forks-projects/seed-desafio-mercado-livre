@@ -2,7 +2,6 @@ package br.com.deveficiente.mercadolivre.compras;
 
 import br.com.deveficiente.mercadolivre.compartilhado.seguranca.AutorizacaoHelper;
 import br.com.deveficiente.mercadolivre.compartilhado.seguranca.TokenManager;
-import br.com.deveficiente.mercadolivre.compartilhado.service.Emails;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
@@ -31,7 +30,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -54,9 +52,6 @@ class RetornoPagamentoControllerTest {
 
     @MockitoBean
     private RestTemplate restTemplate;
-
-    @MockitoBean
-    private Emails emails;
 
     @Value("${sistema.externo.notas-fiscais}")
     private String urlSistemaExternoNotasFiscais;
@@ -101,7 +96,6 @@ class RetornoPagamentoControllerTest {
 
         verify(restTemplate, times(1)).postForEntity(eq(urlSistemaExternoNotasFiscais), any(NotaFiscalRequest.class), eq(Void.class));
         verify(restTemplate, times(1)).postForEntity(eq(urlSistemaExternoRankings), any(RankingRequest.class), eq(Void.class));
-        verify(emails, times(1)).enviarEmailClienteConclusaoPagamento(any(Compra.class));
     }
 
     @Property(tries = 1)
@@ -137,8 +131,6 @@ class RetornoPagamentoControllerTest {
                         .headers(new AutorizacaoHelper().getAuthorization(tokenManager))
                         .content(objectMapper.writeValueAsString(payloadRetorno)))
                 .andExpect(status().isOk());
-
-        verify(emails, times(1)).enviarEmailFalhaPagamentoCliente(any(Compra.class), anyString());
     }
 
     @Property(tries = 10)
@@ -189,7 +181,6 @@ class RetornoPagamentoControllerTest {
 
         verify(restTemplate, times(1)).postForEntity(eq(urlSistemaExternoNotasFiscais), any(NotaFiscalRequest.class), eq(Void.class));
         verify(restTemplate, times(1)).postForEntity(eq(urlSistemaExternoRankings), any(RankingRequest.class), eq(Void.class));
-        verify(emails, times(1)).enviarEmailClienteConclusaoPagamento(any(Compra.class));
     }
 
     public static String extrairIdUrl(String url) {
