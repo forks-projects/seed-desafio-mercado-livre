@@ -12,6 +12,12 @@ mvn clean verify
 
 > Para consultar a cobertura dos testes, acesse o arquivo `seed-desafio-mercado-livre/target/site/jacoco-merged/index.html` no seu navegador.
 
+# TO DO list
+- Criar classe data builder test para criação dos objetos para uso nos testes e evitar repetição de códigos
+- Alterar a entidade Pagamento para um relacionamento @ManyToOne com a entidade Compra conforme a [parte 1](https://dev-eficiente.memberkit.com.br/111379-design-e-arquitetura-de-software-para-devs-eficientes/2678327-realmente-finaliza-a-compra-parte-2) da explicação da aula.
+- adicionar um método na entidade compra, ou algo parecido, para adicionar uma tentativa pagamento. Isso centraliza a regra de negócio na entidade. Na versão atual está centralizada na request de entrada.
+- alterar a adição de opinão como um método na entidade Produto para centralizar a regra de negócio na entidade. Na versão atual está cria uma opinião que está relacionada a um produto, mas não está adicionando a opinião na lista de opiniões do produto.
+
 ## Cadastro de Novo Usuário
 
 ### Necessidades
